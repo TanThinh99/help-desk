@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import pyrebase
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,19 +26,6 @@ SECRET_KEY = '3p!zao&_5rpl$usl7onzp%%-r+jq+3(mto@ef6t*dd9-gub3c8'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-# firebase
-firebaseConfig = {
-    "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
-    "authDomain": "help-desk-12c4d.firebaseapp.com",
-    "databaseURL": "https://help-desk-12c4d.firebaseio.com",
-    "projectId": "help-desk-12c4d",
-    "storageBucket": "help-desk-12c4d.appspot.com",
-    "messagingSenderId": "137334382999",
-    "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
-    "measurementId": "G-R11CH76CNH"
-}
-firebase = pyrebase.initialize_app(firebaseConfig)
 
 # Application definition
 
