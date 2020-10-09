@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome Manager</h1>
+    Chào quản lý {{ name }}
+    <button onclick="ToURL('CreateAccount')">Tạo tài khoản</button>
+    <button onclick="ToURL('CreateFAQ')">Tạo FAQ</button>
+    <button onclick="ToURL('../../logout')">Đăng xuất</button>
+
+    <h3>Danh sách sự cố</h3>
+    <div id="problems"></div>
+
+    {% if report %}
+        <script>
+            alert("{{ report }}");
+        </script>
+    {% endif %}
+</body>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+<script>
+    var firebaseConfig = {
+        "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
+        "authDomain": "help-desk-12c4d.firebaseapp.com",
+        "databaseURL": "https://help-desk-12c4d.firebaseio.com",
+        "projectId": "help-desk-12c4d",
+        "storageBucket": "help-desk-12c4d.appspot.com",
+        "messagingSenderId": "137334382999",
+        "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
+        "measurementId": "G-R11CH76CNH"
+    }
+    firebase.initializeApp(firebaseConfig)
+
+    
+    function ToURL(url) {
+        window.location.href = url;
+    }
+
+
+    var data = firebase.database().ref("problems");
+        data.on("value", function(snapshot) {
+            info = snapshot.val();
+            console.log(info);
+            str = "<table border='1'>";
+                for (x in info) {
+                    console.log(x);
+                    str += "<tr>"
+                        str += "<td>"+ info[x].content +"</td>";
+                        str += "<td><img src='"+ info[x].url_image +"' alt='"+ info[x].name_image +"' style='height: 50px;'></td>";
+                    str += "</tr>";
+                }
+            str += "</table>";
+            document.getElementById("problems").innerHTML = str;
+        });
+</script>
+</html>

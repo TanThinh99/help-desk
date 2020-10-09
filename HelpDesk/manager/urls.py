@@ -2,8 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('Welcome', views.FirstView, name="first_view"),
+    path('Index', views.GetIndex, name="Get_index"),
 
-    path("TaoTaiKhoan", views.GetCreateAccount, name="Get_create_account"),
+    path("CreateAccount", views.GetCreateAccount, name="Get_create_account"),
     path("PostCreateAccount", views.PostCreateAccount, name="Post_create_account"),
+
+    path("CreateFAQ", views.GetCreateFAQ, name="Get_create_faq"),
+    path("PostCreateFAQ", views.PostCreateFAQ, name="Post_create_faq"),
 ]

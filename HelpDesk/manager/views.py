@@ -18,7 +18,7 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 fire_auth = firebase.auth()
 database = firebase.database()
 
-def FirstView(request):
+def GetIndex(request):
     try:
         token = request.session['token']
     except KeyError:
@@ -31,7 +31,7 @@ def FirstView(request):
     infoUser = database.child("users").child(uid).get().val()
     print(infoUser)
     name = infoUser.get("name")
-    return render(request, "manager/Welcome.html", {"report": name})
+    return render(request, "manager/Index.html")
 
 def GetCreateAccount(request):
     return render(request, "manager/CreateAccount.html")
@@ -42,7 +42,7 @@ def PostCreateAccount(request):
     try:
         user = fire_auth.create_user_with_email_and_password(email, passw)
     except:
-        return render(request, "manager/Welcome.html", {"report": "Tạo tài khoản thất bại"})
+        return render(request, "manager/Index.html", {"report": "Tạo tài khoản thất bại"})
     
     name = request.POST.get("hoTen")
     position = request.POST.get("role")
@@ -54,4 +54,20 @@ def PostCreateAccount(request):
     uid = user.get("localId")
     database.child("users").child(uid).set(data)
 
-    return render(request, "manager/Welcome.html", {"report": "Tạo tài khoản thành công"})
+    return render(request, "manager/Index.html", {"report": "Tạo tài khoản thành công"})
+
+
+def GetCreateFAQ(request):
+    return render(request, "manager/CreateFAQ.html")
+
+
+def PostCreateFAQ(request):
+    question = request.POST.get("question")
+    answer = request.POST.get("answer")
+
+    data = {
+        "question": question,
+        "answer": answer
+    }
+    database.child("faqs").push(data)
+    return render(request, "manager/Index.html", {"report": "Tạo một FAQ thành công"})

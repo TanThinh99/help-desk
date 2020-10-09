@@ -6,7 +6,9 @@
     <title>Trang chủ</title>
 </head>
 <body>
-    Đây là trang chủ, Chào nhân viên {{ name }}
+    <h2>Đây là trang chủ</h2>
+    <h4>Chào nhân viên {{ name }}</h4>
+    <button onclick="ToURL('CreateProblem')">Tạo báo cáo cho sự cố</button>
     <button onclick="ToURL('logout')">Đăng xuất</button>
     
     {% if report %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create problem</title>
+</head>
+<body>
+    <form action="{% url 'Post_create_problem' %}" method="post">
+        {% csrf_token %}
+
+        <label for="content">Tóm tắt vấn đề gặp phải</label><br>
+        <textarea name="content" id="content" cols="40" rows="10" required></textarea><br><br>
+
+        <label for="image">Hình ảnh vấn đề (nếu có)</label>
+        <input type="file" name="image" id="image">
+        <input type="button" value="Upload file" onclick="UploadFile()">
+        <input type="hidden" name="name_image" id="name_image" value="">
+        <input type="hidden" name="url_image" id="url_image" value="">
+        <p><span style="color: red">Lưu ý:</span> Nếu có chèn thêm file, bạn cần chờ hệ thống thông báo 
+            upload file thành công. Nếu bạn nhấn gửi báo cáo mà không chờ thông báo, file 
+            sẽ không được lưu lại trên hệ thống
+        </p><br><br>
+        
+        <input type="submit" value="Gửi báo cáo">
+        <input type="reset" value="Làm lại">
+    </form>
+</body>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+<script>
+    var firebaseConfig = {
+        "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
+        "authDomain": "help-desk-12c4d.firebaseapp.com",
+        "databaseURL": "https://help-desk-12c4d.firebaseio.com",
+        "projectId": "help-desk-12c4d",
+        "storageBucket": "help-desk-12c4d.appspot.com",
+        "messagingSenderId": "137334382999",
+        "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
+        "measurementId": "G-R11CH76CNH"
+    }
+    firebase.initializeApp(firebaseConfig)
+    
+    function UploadFile() {
+        file = document.getElementById("image").files[0];
+
+        storage = firebase.storage();
+
+        storageRef = storage.ref();
+
+        thisRef = storageRef.child(file.name).put(file);
+
+        thisRef.on("state_changed", function(snapshot) {
+            console.log("Upload file successfully");
+        },
+        function(error) {
+
+        },
+        function() {
+            // Upload file done, download url of file
+            thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                document.getElementById("url_image").value = downloadURL;
+                document.getElementById("name_image").value = file.name;
+                alert("Upload file thành công");
+            });
+        });
+    }    
+</script>
+</html>

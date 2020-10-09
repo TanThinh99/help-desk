@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create FAQ</title>
+</head>
+<body>
+    <form action="{% url 'Post_create_faq' %}" method="post">
+        {% csrf_token %}
+
+        <label for="question">Câu hỏi</label><br>
+        <textarea name="question" id="question" cols="30" rows="4"></textarea><br><br>
+
+        <label for="answer">Câu trả lời</label><br>
+        <textarea name="answer" id="answer" cols="35" rows="10"></textarea><br><br>
+        
+        <input type="submit" value="Tạo FAQ">
+    </form>
+</body>
+</html>
