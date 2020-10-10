@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+</head>
+<body>
+    <h2>Đây là trang chủ</h2>
+    <h4>Chào kỹ thuật viên {{ name }}</h4>
+    <button onclick="ToURL('../../logout')">Đăng xuất</button>
+    
+    {% if report %}
+        <script>
+            alert("{{ report }}");
+        </script>
+    {% endif %}
+</body>
+<script>
+    function ToURL(url) {
+        window.location.href = url;
+    }
+</script>
+</html>

@@ -9,4 +9,7 @@ urlpatterns = [
 
     path("CreateFAQ", views.GetCreateFAQ, name="Get_create_faq"),
     path("PostCreateFAQ", views.PostCreateFAQ, name="Post_create_faq"),
+
+    path("CreateWork/<problem_key>", views.GetCreateWork, name="Get_create_work"),
+    path("PostCreateWork", views.PostCreateWork, name="Post_create_work"),
 ]

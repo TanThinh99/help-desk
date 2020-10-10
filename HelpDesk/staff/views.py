@@ -1,22 +1,33 @@
 from django.shortcuts import render, redirect
 
 import pyrebase
+import json
 
 # Create your views here.
 
-firebaseConfig = {
-    "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
-    "authDomain": "help-desk-12c4d.firebaseapp.com",
-    "databaseURL": "https://help-desk-12c4d.firebaseio.com",
-    "projectId": "help-desk-12c4d",
-    "storageBucket": "help-desk-12c4d.appspot.com",
-    "messagingSenderId": "137334382999",
-    "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
-    "measurementId": "G-R11CH76CNH"
-}
+    # Read info firebase_config
+file_config = open("./HelpDesk/firebase_config.txt", "r")
+firebaseConfig = json.loads(file_config.read())
+file_config.close()
+
 firebase = pyrebase.initialize_app(firebaseConfig)
 fire_auth = firebase.auth()
 database = firebase.database()
+
+
+def GetIndex(request):
+    try:
+        token = request.session["token"]
+    except KeyError:
+        return redirect("")
+
+    account = fire_auth.get_account_info(token)
+    users = account["users"]
+    user = users[0]
+    uid = user.get("localId")
+    info = database.child("users").child(uid).get().val()
+    name = info.get("name")
+    return render(request, "staff/Index.html", {"name": name})
 
 
 def GetSignIn(request):
@@ -43,10 +54,11 @@ def PostSignIn(request):
     position = info.get("position")
 
     if position == "staff":
-        return render(request, "staff/Index.html", {"name": name})
+        return redirect("../Index")
     elif position == "manager":
-        #return render(request, "manager/Index.html", {"name": name})
         return redirect("manager/Index")
+    elif position == "technician":
+        return redirect("technician/Index")
 
 
 def Logout(request):

@@ -1,20 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 import pyrebase
+import json
 
 # Create your views here.
 
-firebaseConfig = {
-    "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
-    "authDomain": "help-desk-12c4d.firebaseapp.com",
-    "databaseURL": "https://help-desk-12c4d.firebaseio.com",
-    "projectId": "help-desk-12c4d",
-    "storageBucket": "help-desk-12c4d.appspot.com",
-    "messagingSenderId": "137334382999",
-    "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
-    "measurementId": "G-R11CH76CNH"
-}
-firebase = pyrebase.initialize_app(firebaseConfig)
+    # Read info firebase_config
+file_config = open("./HelpDesk/firebase_config.txt", "r")
+firebase_config = json.loads(file_config.read())
+file_config.close()
+
+firebase = pyrebase.initialize_app(firebase_config)
 fire_auth = firebase.auth()
 database = firebase.database()
 
@@ -29,12 +25,13 @@ def GetIndex(request):
     user = infoAccount["users"]
     uid = user[0].get("localId")
     infoUser = database.child("users").child(uid).get().val()
-    print(infoUser)
     name = infoUser.get("name")
-    return render(request, "manager/Index.html")
+    return render(request, "manager/Index.html", {"name": name})
+
 
 def GetCreateAccount(request):
     return render(request, "manager/CreateAccount.html")
+
 
 def PostCreateAccount(request):
     email = request.POST.get("email")
@@ -71,3 +68,44 @@ def PostCreateFAQ(request):
     }
     database.child("faqs").push(data)
     return render(request, "manager/Index.html", {"report": "Tạo một FAQ thành công"})
+
+
+def GetCreateWork(request, problem_key):    
+    users = database.child("users").get().val()
+    emailList = []
+    nameList = []
+    for key in users:
+        position = users[key].get("position")
+        if position == "technician":
+            emailList.append(users[key].get("email"))
+            nameList.append(users[key].get("name"))
+    user_zip = zip(emailList, nameList)
+
+    faqs = database.child("faqs").get().val()
+    keyList = []
+    questionList = []
+    for key in faqs:
+        keyList.append(key)
+        questionList.append(faqs[key].get("question"))
+    faq_zip = zip(keyList, questionList)
+
+    return render(request, "manager/CreateWork.html", {"problem_key": problem_key, "user_zip": user_zip, "faq_zip": faq_zip})
+
+
+def PostCreateWork(request):
+    problem = request.POST.get("problem")
+    name_work = request.POST.get("name")
+    user_fix = request.POST.get("user")
+    deadline = request.POST.get("deadline")
+    faq_key = request.POST.get("faq")
+
+    data = {
+        "problem": problem,
+        "name_work": name_work,
+        "user_fix": user_fix,
+        "deadline": deadline,
+        "faq_key": faq_key,
+        "status": 0
+    }
+    database.child("works").push(data)
+    return redirect("../manager/Index")
