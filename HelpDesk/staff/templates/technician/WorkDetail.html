@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết công việc</title>
+</head>
+<body>
+    <h3>Chi tiết công việc {{ work_name }}</h3>
+
+    <h4>Về sự cố:</h4>
+    <p>Được tạo bởi {{ user_name }}</p>
+    <p>Nội dung sự cố: {{ problem_content }}</p><hr>
+
+    <h4>FAQ được gợi ý:</h4>
+    <p>Câu hỏi: {{ question }}</p>
+    <p>Câu trả lời: {{ answer }}</p><hr>
+
+    <h4>Hạn chót hoàn thành công việc: {{ deadline }}</h4><hr>
+
+    <h4>Trạng thái công việc: {{ status }}</h4><hr>
+
+    <h4>Giải pháp cho công việc này:</h4>
+    <p>Cách giải quyết: {{ solution_content }}</p>
+    <p>Thời gian giải quyết công việc: {{ time_fix }}</p><hr>
+
+    {% if status == 0 %}
+        <button><a href="{% url 'Get_create_solution' work_key %}">Tạo giải pháp cho công việc này</a></button>
+        <button><a href="{% url 'Can_not_done' work_key %}" id="notDone">Báo cáo không thể hoàn thành công việc</a></button>
+
+        <script>
+            document.getElementById("notDone").onclick = function() {
+                if(confirm("Bạn không thể hoàn thành công việc này?")) {
+                    return true;
+                }
+                return false;
+            }
+        </script>
+    {% endif %}
+</body>
+</html>

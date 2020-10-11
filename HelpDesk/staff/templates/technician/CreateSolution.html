@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo giải pháp</title>
+</head>
+<body>
+    <form action="{% url 'Post_create_solution' %}" method="post">
+        {% csrf_token %}
+
+        <label for="solution_content">Cách giải quyết công việc:</label><br>
+        <textarea name="solution_content" id="solution_content" cols="35" rows="8"></textarea><br><br>
+
+        <label for="time_fix">Thời gian giải quyết công việc:</label><br>
+        <input type="number" name="time_fix" id="time_fix" min="1"> (Đơn vị là phút) <br><br>
+
+        <input type="hidden" name="workKey" value="{{ workKey }}">
+
+        <input type="submit" value="Báo cáo giải pháp" id="submitBtn">
+    </form>
+</body>
+<script>
+    document.getElementById("submitBtn").onclick = function() {
+        if(confirm("Bạn sẽ báo cáo giải pháp cho công việc này?")) {
+            return true;
+        }
+        return false
+    }
+</script>
+</html>

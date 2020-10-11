@@ -15,8 +15,8 @@
         <label for="image">Hình ảnh vấn đề (nếu có)</label>
         <input type="file" name="image" id="image">
         <input type="button" value="Upload file" onclick="UploadFile()">
-        <input type="hidden" name="name_image" id="name_image" value="">
-        <input type="hidden" name="url_image" id="url_image" value="">
+        <input type="hidden" name="image_name" id="image_name" value="">
+        <input type="hidden" name="image_url" id="image_url" value="">
         <p><span style="color: red">Lưu ý:</span> Nếu có chèn thêm file, bạn cần chờ hệ thống thông báo 
             upload file thành công. Nếu bạn nhấn gửi báo cáo mà không chờ thông báo, file 
             sẽ không được lưu lại trên hệ thống
@@ -58,8 +58,8 @@
         function() {
             // Upload file done, download url of file
             thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                document.getElementById("url_image").value = downloadURL;
-                document.getElementById("name_image").value = file.name;
+                document.getElementById("image_url").value = downloadURL;
+                document.getElementById("image_name").value = file.name;
                 alert("Upload file thành công");
             });
         });

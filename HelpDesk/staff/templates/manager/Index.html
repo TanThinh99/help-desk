@@ -10,12 +10,12 @@
     Chào quản lý {{ name }}
     <button onclick="ToURL('CreateAccount')">Tạo tài khoản</button>
     <button onclick="ToURL('CreateFAQ')">Tạo FAQ</button>
-    <button id="CreateWorkBtn">Tạo công việc</button>
     <button onclick="ToURL('../../logout')">Đăng xuất</button>
 
     <h3>Danh sách sự cố</h3>
     <div id="problems"></div>
-    <input type="hidden" name="key_problem" id="key_problem" value="">
+    <button id="CreateWorkBtn" disabled>Tạo công việc</button>
+    <input type="hidden" name="problem_key" id="problem_key" value="">
 
     {% if report %}
         <script>
@@ -42,26 +42,27 @@
     }
 
     var data = firebase.database().ref("problems");
-        data.on("value", function(snapshot) {
-            info = snapshot.val();
-            str = "<table border='1'>";
-                for (x in info) {
-                    str += "<tr onclick='ChooseProblem(\""+ x +"\")'>"
-                        str += "<td>"+ info[x].content +"</td>";
-                        str += "<td><img src='"+ info[x].url_image +"' alt='"+ info[x].name_image +"' style='height: 50px;'></td>";
-                    str += "</tr>";
-                }
-            str += "</table>";
-            document.getElementById("problems").innerHTML = str;
-        });
+    data.on("value", function(snapshot) {
+        info = snapshot.val();
+        str = "<table border='1'>";
+            for (x in info) {
+                str += "<tr onclick='ChooseProblem(\""+ x +"\")'>"
+                    str += "<td>"+ info[x].content +"</td>";
+                    str += "<td><img src='"+ info[x].image_url +"' alt='"+ info[x].image_name +"' style='height: 50px;'></td>";
+                str += "</tr>";
+            }
+        str += "</table>";
+        document.getElementById("problems").innerHTML = str;
+    });
 
-        function ChooseProblem(key) {
-            document.getElementById("key_problem").value = key;
-        }
+    function ChooseProblem(key) {
+        document.getElementById("problem_key").value = key;
+        document.getElementById("CreateWorkBtn").disabled = false;
+    }
 
-        document.getElementById("CreateWorkBtn").onclick = function() {
-            key = document.getElementById("key_problem").value;
-            window.location.href = "CreateWork/"+ key;
-        }
+    document.getElementById("CreateWorkBtn").onclick = function() {
+        key = document.getElementById("problem_key").value;
+        window.location.href = "CreateWork/"+ key;
+    }
 </script>
 </html>

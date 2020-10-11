@@ -72,14 +72,14 @@ def PostCreateFAQ(request):
 
 def GetCreateWork(request, problem_key):    
     users = database.child("users").get().val()
-    emailList = []
+    keyList = []
     nameList = []
     for key in users:
         position = users[key].get("position")
         if position == "technician":
-            emailList.append(users[key].get("email"))
+            keyList.append(key)
             nameList.append(users[key].get("name"))
-    user_zip = zip(emailList, nameList)
+    user_zip = zip(keyList, nameList)
 
     faqs = database.child("faqs").get().val()
     keyList = []
@@ -94,17 +94,17 @@ def GetCreateWork(request, problem_key):
 
 def PostCreateWork(request):
     problem = request.POST.get("problem")
-    name_work = request.POST.get("name")
+    work_name = request.POST.get("name")
     user_fix = request.POST.get("user")
     deadline = request.POST.get("deadline")
-    faq_key = request.POST.get("faq")
+    faq = request.POST.get("faq")
 
     data = {
         "problem": problem,
-        "name_work": name_work,
+        "work_name": work_name,
         "user_fix": user_fix,
         "deadline": deadline,
-        "faq_key": faq_key,
+        "faq": faq,
         "status": 0
     }
     database.child("works").push(data)

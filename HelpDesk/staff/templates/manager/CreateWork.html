@@ -14,8 +14,8 @@
 
         <label for="user">Kỹ thuật viên giải quyết</label>
         <select name="user" id="user">
-            {% for email, name in user_zip %}
-                <option value="{{ email }}">{{ name }}</option>
+            {% for key, name in user_zip %}
+                <option value="{{ key }}">{{ name }}</option>
             {% endfor %}
         </select><br><br>
 

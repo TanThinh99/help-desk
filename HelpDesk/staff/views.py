@@ -88,19 +88,18 @@ def PostCreateProblem(request):
     user = users[0]
     uid = user.get("localId")
     info = database.child("users").child(uid).get().val()
-    email = info.get("email")
     name = info.get("name")
 
     content = request.POST.get("content")
-    name_image = request.POST.get("name_image")
-    url_image = request.POST.get("url_image")
+    image_name = request.POST.get("image_name")
+    image_url = request.POST.get("image_url")
     status = 0
 
     data = {
-        "user_create": email,
+        "user_create": uid,
         "content": content,
-        "name_image": name_image,
-        "url_image": url_image,
+        "image_name": image_name,
+        "image_url": image_url,
         "status": status
     }
     database.child("problems").push(data)
