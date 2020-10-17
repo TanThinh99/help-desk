@@ -27,7 +27,7 @@ def GetIndex(request):
     uid = user.get("localId")
     info = database.child("users").child(uid).get().val()
     name = info.get("name")
-    return render(request, "staff/Index.html", {"name": name})
+    return render(request, "staff/Index.html", {"name": name, "user": uid})
 
 
 def GetSignIn(request):
@@ -103,4 +103,4 @@ def PostCreateProblem(request):
         "status": status
     }
     database.child("problems").push(data)
-    return render(request, "staff/Index.html", {"report": "Gửi sự cố thành công", "name": name})
+    return redirect("../Index")

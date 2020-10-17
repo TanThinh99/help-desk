@@ -24,7 +24,7 @@
     <p>Cách giải quyết: {{ solution_content }}</p>
     <p>Thời gian giải quyết công việc: {{ time_fix }}</p><hr>
 
-    {% if status == 0 %}
+    {% if status == 0 or status == 1 %}
         <button><a href="{% url 'Get_create_solution' work_key %}">Tạo giải pháp cho công việc này</a></button>
         <button><a href="{% url 'Can_not_done' work_key %}" id="notDone">Báo cáo không thể hoàn thành công việc</a></button>
 

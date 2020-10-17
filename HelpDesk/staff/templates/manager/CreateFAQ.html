@@ -15,7 +15,15 @@
         <label for="answer">Câu trả lời</label><br>
         <textarea name="answer" id="answer" cols="35" rows="10"></textarea><br><br>
         
-        <input type="submit" value="Tạo FAQ">
+        <input type="submit" value="Tạo FAQ" id="createFAQBtn">
     </form>
 </body>
+<script>
+    document.getElementById("createFAQBtn").onclick = function() {
+        if(confirm("Bạn sẽ tạo câu hỏi thường gặp (FAQ) này?")) {
+            return true;
+        }
+        return false;
+    }
+</script>
 </html>

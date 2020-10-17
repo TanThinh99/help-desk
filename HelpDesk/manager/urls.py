@@ -12,4 +12,11 @@ urlpatterns = [
 
     path("CreateWork/<problem_key>", views.GetCreateWork, name="Get_create_work"),
     path("PostCreateWork", views.PostCreateWork, name="Post_create_work"),
+
+    path("UpdateWork/<work_key>", views.GetUpdateWork, name="Get_update_work"),
+    path("PostUpdateWork", views.PostUpdateWork, name="Post_update_work"),
+
+    path("DeleteWork/<work_key>", views.GetDeleteWork, name="Get_delete_work"),
+
+    path("PassProblem/<problem_key>", views.GetPassProblem, name="Get_pass_problem"),
 ]

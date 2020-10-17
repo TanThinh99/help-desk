@@ -6,23 +6,18 @@
     <title>Create problem</title>
 </head>
 <body>
-    <form action="{% url 'Post_create_problem' %}" method="post">
+    <form action="{% url 'Post_create_problem' %}" method="post" id="createProblemForm">
         {% csrf_token %}
 
         <label for="content">Tóm tắt vấn đề gặp phải</label><br>
         <textarea name="content" id="content" cols="40" rows="10" required></textarea><br><br>
 
         <label for="image">Hình ảnh vấn đề (nếu có)</label>
-        <input type="file" name="image" id="image">
-        <input type="button" value="Upload file" onclick="UploadFile()">
+        <input type="file" name="image" id="image"><br><br>
         <input type="hidden" name="image_name" id="image_name" value="">
         <input type="hidden" name="image_url" id="image_url" value="">
-        <p><span style="color: red">Lưu ý:</span> Nếu có chèn thêm file, bạn cần chờ hệ thống thông báo 
-            upload file thành công. Nếu bạn nhấn gửi báo cáo mà không chờ thông báo, file 
-            sẽ không được lưu lại trên hệ thống
-        </p><br><br>
         
-        <input type="submit" value="Gửi báo cáo">
+        <input type="button" value="Gửi báo cáo" id="submitBtn">
         <input type="reset" value="Làm lại">
     </form>
 </body>
@@ -39,8 +34,9 @@
         "measurementId": "G-R11CH76CNH"
     }
     firebase.initializeApp(firebaseConfig)
-    
-    function UploadFile() {
+
+    document.getElementById("submitBtn").onclick = function() {
+            // UploadFile
         file = document.getElementById("image").files[0];
 
         storage = firebase.storage();
@@ -60,9 +56,9 @@
             thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
                 document.getElementById("image_url").value = downloadURL;
                 document.getElementById("image_name").value = file.name;
-                alert("Upload file thành công");
+                document.getElementById("createProblemForm").submit();
             });
         });
-    }    
+    }
 </script>
 </html>

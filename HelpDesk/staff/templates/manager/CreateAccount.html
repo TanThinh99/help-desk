@@ -41,7 +41,10 @@
             alert("Mật khẩu nhập lại phải giống với mật khẩu ở trên");
             return false;
         }
-        return true;
+        if(confirm("Bạn sẽ tạo tài khoản này?")) {
+            return true;
+        }
+        return false;        
     }
     function ToURL(url) {
         window.location.href = url;

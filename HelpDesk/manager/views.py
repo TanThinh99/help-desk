@@ -51,7 +51,7 @@ def PostCreateAccount(request):
     uid = user.get("localId")
     database.child("users").child(uid).set(data)
 
-    return render(request, "manager/Index.html", {"report": "Tạo tài khoản thành công"})
+    return redirect("../manager/Index")
 
 
 def GetCreateFAQ(request):
@@ -67,7 +67,7 @@ def PostCreateFAQ(request):
         "answer": answer
     }
     database.child("faqs").push(data)
-    return render(request, "manager/Index.html", {"report": "Tạo một FAQ thành công"})
+    return redirect("../manager/Index")
 
 
 def GetCreateWork(request, problem_key):    
@@ -98,7 +98,8 @@ def PostCreateWork(request):
     user_fix = request.POST.get("user")
     deadline = request.POST.get("deadline")
     faq = request.POST.get("faq")
-
+       
+        # Create WORK
     data = {
         "problem": problem,
         "work_name": work_name,
@@ -108,4 +109,72 @@ def PostCreateWork(request):
         "status": 0
     }
     database.child("works").push(data)
+    
+        # Update problem (status = 1)
+    data = {
+        "status": 1
+    }
+    database.child("problems").child(problem).update(data)
     return redirect("../manager/Index")
+
+
+def GetUpdateWork(request, work_key):
+    work = database.child("works").child(work_key).get().val()
+    work_name = work.get("work_name")
+    deadline = work.get("deadline")
+    
+    users = database.child("users").order_by_child("position").equal_to("technician").get().val()
+    keyList = []
+    nameList = []
+    for key in users:
+        keyList.append(key)
+        nameList.append(users[key].get("name"))
+    user_zip = zip(keyList, nameList)
+
+    faqs = database.child("faqs").get().val()
+    keyList = []
+    questionList = []
+    for key in faqs:
+        keyList.append(key)
+        questionList.append(faqs[key].get("question"))
+    faq_zip = zip(keyList, questionList)
+    data = {
+        "work_key": work_key,
+        "work_name": work_name,
+        "deadline": deadline,
+        "user_zip": user_zip, 
+        "faq_zip": faq_zip
+    }
+    return render(request, "manager/UpdateWork.html", data)
+
+
+def PostUpdateWork(request):
+    work_key = request.POST.get("work_key")
+    work_name = request.POST.get("name")
+    user_fix = request.POST.get("user")
+    deadline = request.POST.get("deadline")
+    faq = request.POST.get("faq")
+       
+        # Create WORK
+    data = {
+        "work_name": work_name,
+        "user_fix": user_fix,
+        "deadline": deadline,
+        "faq": faq,
+        "status": 0
+    }
+    database.child("works").child(work_key).update(data)
+    return redirect("../manager/Index")
+
+
+def GetDeleteWork(request, work_key):
+    database.child("works").child(work_key).remove()
+    return redirect("../Index")
+
+
+def GetPassProblem(request, problem_key):
+    data = {
+        "status": 3
+    }
+    database.child("problems").child(problem_key).update(data)
+    return redirect("../Index")

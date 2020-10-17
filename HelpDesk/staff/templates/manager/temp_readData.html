@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>users</h2>
+    <div id="users"></div>
+
+    <h2>problems</h2>
+    <div id="problems"></div>
+
+    <h2>works</h2>
+    <div id="works"></div>
+
+    <h2>solutions</h2>
+    <div id="solutions"></div>
+
+    <h2>faqs</h2>
+    <div id="faqs"></div>
+</body>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+<script>
+    var firebaseConfig = {
+        "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
+        "authDomain": "help-desk-12c4d.firebaseapp.com",
+        "databaseURL": "https://help-desk-12c4d.firebaseio.com",
+        "projectId": "help-desk-12c4d",
+        "storageBucket": "help-desk-12c4d.appspot.com",
+        "messagingSenderId": "137334382999",
+        "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
+        "measurementId": "G-R11CH76CNH"
+    }
+    firebase.initializeApp(firebaseConfig)
+
+    var data_user = firebase.database().ref("users");
+    data_user.once("value", function(snapshot) {
+        users = snapshot.val();
+        str = "<table border='1'>";
+            str += "<tr>";
+                str += "<th>key</th>";
+                str += "<th>name</th>";
+                str += "<th>email</th>";
+                str += "<th>position</th>";
+            str += "</tr>";
+            for(x in users) {
+                str += "<tr>";
+                    str += "<td>"+ x +"</td>";
+                    str += "<td>"+ users[x].name +"</td>";
+                    str += "<td>"+ users[x].email +"</td>";
+                    str += "<td>"+ users[x].position +"</td>";
+                str += "</tr>";
+            }
+        str += "</table>";
+        document.getElementById("users").innerHTML = str;
+    });
+
+    var data_problem = firebase.database().ref("problems");
+    data_problem.once("value", function(snapshot) {
+        problems = snapshot.val();
+        str = "<table border='1'>";
+            str += "<tr>";
+                str += "<th>key</th>";
+                str += "<th>user_create</th>";
+                str += "<th>content</th>";
+                str += "<th>image_name</th>";
+                str += "<th>image_url</th>";
+                str += "<th>status</th>";
+            str += "</tr>";
+            for(x in problems) {
+                str += "<tr>";
+                    str += "<td>"+ x +"</td>";
+                    str += "<td>"+ problems[x].user_create +"</td>";
+                    str += "<td>"+ problems[x].content +"</td>";
+                    str += "<td>"+ problems[x].image_name +"</td>";
+                    str += "<td>"+ problems[x].image_url +"</td>";
+                    str += "<td>"+ problems[x].status +"</td>";
+                str += "</tr>";
+            }
+        str += "</table>";
+        document.getElementById("problems").innerHTML = str;
+    });
+
+    var data_works = firebase.database().ref("works");
+    data_works.once("value", function(snapshot) {
+        works = snapshot.val();
+        str = "<table border='1'>";
+            str += "<tr>";
+                str += "<th>key</th>";
+                str += "<th>problem</th>";
+                str += "<th>solution</th>";
+                str += "<th>work_name</th>";
+                str += "<th>user_fix</th>";
+                str += "<th>deadline</th>";
+                str += "<th>faq</th>";
+                str += "<th>status</th>";
+            str += "</tr>";
+            for(x in works) {
+                str += "<tr>";
+                    str += "<td>"+ x +"</td>";
+                    str += "<td>"+ works[x].problem +"</td>";
+                    str += "<td>"+ works[x].solution +"</td>";
+                    str += "<td>"+ works[x].work_name +"</td>";
+                    str += "<td>"+ works[x].user_fix +"</td>";
+                    str += "<td>"+ works[x].deadline +"</td>";
+                    str += "<td>"+ works[x].faq +"</td>";
+                    str += "<td>"+ works[x].status +"</td>";
+                str += "</tr>";
+            }
+        str += "</table>";
+        document.getElementById("works").innerHTML = str;
+    });
+
+    var data_solution = firebase.database().ref("solutions");
+    data_solution.once("value", function(snapshot) {
+        solutions = snapshot.val();
+        str = "<table border='1'>";
+            str += "<tr>";
+                str += "<th>key</th>";
+                str += "<th>user_fix</th>";
+                str += "<th>problem</th>";
+                str += "<th>work</th>";
+                str += "<th>content</th>";
+                str += "<th>time_fix</th>";
+            str += "</tr>";
+            for(x in solutions) {
+                str += "<tr>";
+                    str += "<td>"+ x +"</td>";
+                    str += "<td>"+ solutions[x].user_fix +"</td>";
+                    str += "<td>"+ solutions[x].problem +"</td>";
+                    str += "<td>"+ solutions[x].work +"</td>";
+                    str += "<td>"+ solutions[x].content +"</td>";
+                    str += "<td>"+ solutions[x].time_fix +"</td>";
+                str += "</tr>";
+            }
+        str += "</table>";
+        document.getElementById("solutions").innerHTML = str;
+    });
+
+    var data_faq = firebase.database().ref("faqs");
+    data_faq.once("value", function(snapshot) {
+        faqs = snapshot.val();
+        str = "<table border='1'>";
+            str += "<tr>";
+                str += "<th>key</th>";
+                str += "<th>question</th>";
+                str += "<th>answer</th>";
+            str += "</tr>";
+            for(x in faqs) {
+                str += "<tr>";
+                    str += "<td>"+ x +"</td>";
+                    str += "<td>"+ faqs[x].question +"</td>";
+                    str += "<td>"+ faqs[x].answer +"</td>";
+                str += "</tr>";
+            }
+        str += "</table>";
+        document.getElementById("faqs").innerHTML = str;
+    });
+</script>
+</html>

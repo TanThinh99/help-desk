@@ -60,7 +60,7 @@ def GetWorkDetail(request, workKey):
         # Get solution (If have), if status is 2, work is done
     solution_content = ""
     time_fix = ""
-    if status == 2:
+    if status == 3:
         solution_key = work.get("solution")
         solution = database.child("solutions").child(solution_key).get().val()
         solution_content = solution.get("content")
@@ -113,12 +113,25 @@ def PostCreateSolution(request):
         "status": 2
     }
     database.child("works").child(workKey).update(data)
+    
+        # Test and update problem if all works in problem are done
+    done = True
+    works = database.child("works").order_by_child("problem").equal_to(problem_key).get().val()
+    for x in works:
+        if works[x].get("status") != 2:
+            done = False
+            break
+    if done:
+        data = {
+            "status": 2
+        }
+        database.child("problems").child(problem_key).update(data)
     return redirect("../technician/Index")
 
 
 def CanNotDone(request, workKey):
     data = {
-        "status": 1
+        "status": 2
     }
     database.child("works").child(workKey).update(data)
     return redirect("../Index")
