@@ -6,7 +6,7 @@
     <title>Tạo tài khoản</title>
 </head>
 <body>
-    <button onclick="ToURL('../../logout')">Đăng xuất</button><br><br>
+    <button><a href="{% url 'Logout' %}">Đăng xuất</a></button><br><br>
 
     <form action="{% url 'Post_create_account' %}" method="post">
         {% csrf_token %}
@@ -45,9 +45,6 @@
             return true;
         }
         return false;        
-    }
-    function ToURL(url) {
-        window.location.href = url;
     }
 </script>
 </html>

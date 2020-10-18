@@ -9,8 +9,8 @@
     <h2>Đây là trang chủ</h2>
     <h4>Chào nhân viên {{ name }}</h4>
     <input type="hidden" name="user" id="user" value="{{ user }}">
-    <button onclick="ToURL('CreateProblem')">Tạo báo cáo cho sự cố</button>
-    <button onclick="ToURL('logout')">Đăng xuất</button>
+    <button><a href="{% url 'Get_create_problem' %}">Tạo báo cáo cho sự cố</a></button>
+    <button><a href="..{% url 'Logout' %}">Đăng xuất</a></button>
     
     <h3>Danh sách sự cố</h3>
     <div id="problems"></div>
@@ -71,9 +71,5 @@
         str += "</table>";
         document.getElementById("faqs").innerHTML = str;
     });
-
-    function ToURL(url) {
-        window.location.href = url;
-    }
 </script>
 </html>

@@ -30,47 +30,6 @@ def GetIndex(request):
     return render(request, "staff/Index.html", {"name": name, "user": uid})
 
 
-def GetSignIn(request):
-    return render(request, "staff/SignIn.html")
-
-
-def PostSignIn(request):
-    email = request.POST.get("email")
-    passw = request.POST.get("password")
-
-    try:
-        user = fire_auth.sign_in_with_email_and_password(email, passw)
-    except:
-        return render(request, "staff/SignIn.html", {"report": "Đăng nhập thất bại"})
-
-    # Save token
-    token = user.get("idToken")
-    request.session["token"] = token
-    
-    # Get User information
-    uid = user.get("localId")
-    info = database.child("users").child(uid).get().val()
-    name = info.get("name")
-    position = info.get("position")
-
-    if position == "staff":
-        return redirect("../Index")
-    elif position == "manager":
-        return redirect("manager/Index")
-    elif position == "technician":
-        return redirect("technician/Index")
-
-
-def Logout(request):
-    try:
-        token = request.session['token']
-        del request.session['token']
-    except KeyError:
-        string = "Bạn đã đăng xuất. Vui lòng đăng nhập lại !!"
-        return render(request, "staff/SignIn.html", {"report": string})
-    return render(request, "staff/SignIn.html", {"report": "Đăng xuất thành công"})
-
-
 def GetCreateProblem(request):
     return render(request, "staff/CreateProblem.html")
 
@@ -80,7 +39,7 @@ def PostCreateProblem(request):
         token = request.session["token"]
     except KeyError:
         string = "Bạn đã đăng xuất. Vui lòng đăng nhập lại !!"
-        return render(request, "staff/SignIn.html", {"report": string})
+        return redirect("../../")
 
     # Get email, name of user
     account = fire_auth.get_account_info(token)
@@ -103,4 +62,4 @@ def PostCreateProblem(request):
         "status": status
     }
     database.child("problems").push(data)
-    return redirect("../Index")
+    return redirect("../staff/Index")

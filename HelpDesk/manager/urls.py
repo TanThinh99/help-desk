@@ -4,6 +4,10 @@ from . import views
 urlpatterns = [
     path('Index', views.GetIndex, name="Get_index"),
 
+    path("", views.GetSignIn, name="Get_sign_in"),
+    path("PostSignIn", views.PostSignIn, name="Post_sign_in"),
+    path("logout", views.Logout, name="Logout"),
+
     path("CreateAccount", views.GetCreateAccount, name="Get_create_account"),
     path("PostCreateAccount", views.PostCreateAccount, name="Post_create_account"),
 

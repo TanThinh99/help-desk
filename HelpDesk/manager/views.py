@@ -29,6 +29,47 @@ def GetIndex(request):
     return render(request, "manager/Index.html", {"name": name})
 
 
+def GetSignIn(request):
+    return render(request, "manager/SignIn.html")
+
+
+def PostSignIn(request):
+    email = request.POST.get("email")
+    passw = request.POST.get("password")
+
+    try:
+        user = fire_auth.sign_in_with_email_and_password(email, passw)
+    except:
+        return redirect("../SignIn")
+
+    # Save token
+    token = user.get("idToken")
+    request.session["token"] = token
+    
+    # Get User information
+    uid = user.get("localId")
+    info = database.child("users").child(uid).get().val()
+    name = info.get("name")
+    position = info.get("position")
+
+    if position == "staff":
+        return redirect("staff/Index")
+    elif position == "manager":
+        return redirect("../Index")
+    elif position == "technician":
+        return redirect("technician/Index")
+
+
+def Logout(request):
+    try:
+        token = request.session['token']
+        del request.session['token']
+    except KeyError:
+        string = "Bạn đã đăng xuất. Vui lòng đăng nhập lại !!"
+        return redirect("../")
+    return redirect("../")
+
+
 def GetCreateAccount(request):
     return render(request, "manager/CreateAccount.html")
 
@@ -51,7 +92,7 @@ def PostCreateAccount(request):
     uid = user.get("localId")
     database.child("users").child(uid).set(data)
 
-    return redirect("../manager/Index")
+    return redirect("../Index")
 
 
 def GetCreateFAQ(request):
@@ -67,7 +108,7 @@ def PostCreateFAQ(request):
         "answer": answer
     }
     database.child("faqs").push(data)
-    return redirect("../manager/Index")
+    return redirect("../Index")
 
 
 def GetCreateWork(request, problem_key):    
@@ -115,7 +156,7 @@ def PostCreateWork(request):
         "status": 1
     }
     database.child("problems").child(problem).update(data)
-    return redirect("../manager/Index")
+    return redirect("../Index")
 
 
 def GetUpdateWork(request, work_key):
@@ -164,7 +205,7 @@ def PostUpdateWork(request):
         "status": 0
     }
     database.child("works").child(work_key).update(data)
-    return redirect("../manager/Index")
+    return redirect("../Index")
 
 
 def GetDeleteWork(request, work_key):

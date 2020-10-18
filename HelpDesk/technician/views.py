@@ -57,7 +57,7 @@ def GetWorkDetail(request, workKey):
         question = faq.get("question")
         answer = faq.get("answer")
 
-        # Get solution (If have), if status is 2, work is done
+        # Get solution (If have), if status is 3, work is done
     solution_content = ""
     time_fix = ""
     if status == 3:
@@ -110,7 +110,7 @@ def PostCreateSolution(request):
     solution_key = solution["name"]
     data = {
         "solution": solution_key,
-        "status": 2
+        "status": 3
     }
     database.child("works").child(workKey).update(data)
     
@@ -118,7 +118,7 @@ def PostCreateSolution(request):
     done = True
     works = database.child("works").order_by_child("problem").equal_to(problem_key).get().val()
     for x in works:
-        if works[x].get("status") != 2:
+        if works[x].get("status") != 3:
             done = False
             break
     if done:
