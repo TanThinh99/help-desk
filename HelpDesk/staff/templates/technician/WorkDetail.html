@@ -6,25 +6,38 @@
     <title>Chi tiết công việc</title>
 </head>
 <body>
-    <h3>Chi tiết công việc {{ work_name }}</h3>
+    <h3>Chi tiết công việc {{ work.work_name }}</h3>
 
     <h4>Về sự cố:</h4>
-    <p>Được tạo bởi {{ user_name }}</p>
-    <p>Nội dung sự cố: {{ problem_content }}</p><hr>
+    <p>Được tạo bởi {{ user.name }}</p>
+    <p>Nội dung sự cố: {{ problem.content }}</p>
+    <button><a href="../../ProblemDetail/{{ problem_key }}">Xem chi tiết sự cố</a></button><hr>
 
     <h4>FAQ được gợi ý:</h4>
-    <p>Câu hỏi: {{ question }}</p>
-    <p>Câu trả lời: {{ answer }}</p><hr>
+    {% if faq != "" %}
+        <p>Câu hỏi: {{ faq.question }}</p>
+        <p>Câu trả lời: {{ faq.answer }}</p>
+    {% else %}
+        <p>Câu hỏi: </p>
+        <p>Câu trả lời: </p>
+    {% endif %}
+    <hr>
 
-    <h4>Hạn chót hoàn thành công việc: {{ deadline }}</h4><hr>
+    <h4>Hạn chót hoàn thành công việc: {{ work.deadline }}</h4><hr>
 
-    <h4>Trạng thái công việc: {{ status }}</h4><hr>
+    <h4>Trạng thái công việc: {{ work.status }}</h4><hr>
 
     <h4>Giải pháp cho công việc này:</h4>
-    <p>Cách giải quyết: {{ solution_content }}</p>
-    <p>Thời gian giải quyết công việc: {{ time_fix }}</p><hr>
+    {% if work.status == "3" %}
+        <p>Cách giải quyết: {{ solution.content }}</p>
+        <p>Thời gian giải quyết công việc: {{ solution.time_fix }}</p>
+    {% else %}
+        <p>Cách giải quyết: </p>
+        <p>Thời gian giải quyết công việc: </p>
+    {% endif %}
+    <hr>
 
-    {% if status == 0 or status == 1 %}
+    {% if work.status == "0" or work.status == "1" %}
         <button><a href="{% url 'Get_create_solution' work_key %}">Tạo giải pháp cho công việc này</a></button>
         <button><a href="{% url 'Can_not_done' work_key %}" id="notDone">Báo cáo không thể hoàn thành công việc</a></button>
 

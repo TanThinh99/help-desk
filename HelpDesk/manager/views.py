@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 import pyrebase
 import json
+import datetime
 
 # Create your views here.
 
@@ -49,7 +50,7 @@ def PostSignIn(request):
     try:
         user = fire_auth.sign_in_with_email_and_password(email, passw)
     except:
-        return redirect("../SignIn")
+        return redirect("../")
 
     # Save token
     token = user.get("idToken")
@@ -57,9 +58,7 @@ def PostSignIn(request):
     
     # Get User information
     uid = user.get("localId")
-    info = database.child("users").child(uid).get().val()
-    name = info.get("name")
-    position = info.get("position")
+    position = database.child("users").child(uid).child("position").get().val()
     request.session["thongBao"] = "Day la thong bao abc"
     if position == "staff":
         return redirect("staff/Index")
@@ -121,14 +120,12 @@ def PostCreateFAQ(request):
 
 
 def GetCreateWork(request, problem_key):    
-    users = database.child("users").get().val()
+    users = database.child("users").order_by_child("position").equal_to("technician").get().val()
     keyList = []
     nameList = []
     for key in users:
-        position = users[key].get("position")
-        if position == "technician":
-            keyList.append(key)
-            nameList.append(users[key].get("name"))
+        keyList.append(key)
+        nameList.append(users[key].get("name"))
     user_zip = zip(keyList, nameList)
 
     faqs = database.child("faqs").get().val()
@@ -138,7 +135,6 @@ def GetCreateWork(request, problem_key):
         keyList.append(key)
         questionList.append(faqs[key].get("question"))
     faq_zip = zip(keyList, questionList)
-
     return render(request, "manager/CreateWork.html", {"problem_key": problem_key, "user_zip": user_zip, "faq_zip": faq_zip})
 
 
@@ -156,13 +152,13 @@ def PostCreateWork(request):
         "user_fix": user_fix,
         "deadline": deadline,
         "faq": faq,
-        "status": 0
+        "status": "0"
     }
     database.child("works").push(data)
     
-        # Update problem (status = 1)
+        # Update problem (status = "1")
     data = {
-        "status": 1
+        "status": "1"
     }
     database.child("problems").child(problem).update(data)
     return redirect("../Index")
@@ -211,7 +207,7 @@ def PostUpdateWork(request):
         "user_fix": user_fix,
         "deadline": deadline,
         "faq": faq,
-        "status": 0
+        "status": "0"
     }
     database.child("works").child(work_key).update(data)
     return redirect("../Index")
@@ -224,7 +220,7 @@ def GetDeleteWork(request, work_key):
 
 def GetPassProblem(request, problem_key):
     data = {
-        "status": 3
+        "status": "3"
     }
     database.child("problems").child(problem_key).update(data)
     return redirect("../Index")
@@ -235,4 +231,56 @@ def GetProblemDetail(request, problem_key):
     uid = problem.get("user_create")
     user = database.child("users").child(uid).get().val()
 
-    return render(request, "manager/ProblemDetail.html", {"problem": problem, "user": user})
+        # Get position of account currently
+    try:
+        token = request.session["token"]
+    except KeyError:
+        return redirect("../")
+    account = fire_auth.get_account_info(token)
+    users = account["users"]
+    user1 = users[0]
+    uid = user1["localId"]
+    position_currently = database.child("users").child(uid).child("position").get().val()
+
+    data = {
+        "problem_key": problem_key, 
+        "problem": problem, 
+        "user": user,
+        "position_currently": position_currently
+    }
+    return render(request, "manager/ProblemDetail.html", data)
+
+
+def PostReply(request):
+    try:
+        token = request.session["token"]
+    except KeyError:
+        redirect("../")
+    account = fire_auth.get_account_info(token)
+    users = account["users"]
+    user = users[0]
+    uid = user.get("localId")
+
+    problem_key = request.POST.get("problem_key")
+    content     = request.POST.get("content")
+    image_url   = request.POST.get("image_url")
+
+    d = datetime.datetime.now()
+    time = str(d.hour) +":"+ str(d.minute) +":"+ str(d.second) +" "+ str(d.day) +"-"+ str(d.month) +"-"+ str(d.year)
+    
+    amount = database.child("problems").child(problem_key).child("amount_of_reply").get().val()
+    amount = str(int(amount) + 1)
+    key = amount +"_"+ problem_key
+    data = {
+        "problem": problem_key,
+        "user_create": uid,
+        "content": content,
+        "image_url": image_url,
+        "time": time
+    }
+    database.child("replies").child(key).set(data)
+
+    # Update amount_of_reply in problem
+    data = {"amount_of_reply": amount}
+    database.child("problems").child(problem_key).update(data)
+    return redirect("ProblemDetail/"+ problem_key)

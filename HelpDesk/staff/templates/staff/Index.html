@@ -14,6 +14,8 @@
     
     <h3>Danh sách sự cố</h3>
     <div id="problems"></div>
+    <input type="hidden" name="problem_key" id="problem_key" value="">
+    <button id="showProblemBtn" disabled>Xem chi tiết sự cố</button>
 
     <h3>Danh sách FAQ</h3>
     <div id="faqs"></div>
@@ -44,7 +46,7 @@
                 str += "<th>status</th>";
             str += "</tr>";
             for(x in problems) {
-                str += "<tr>";
+                str += "<tr onclick='ChooseProblem(\""+ x +"\")'>";
                     str += "<td>"+ problems[x].content +"</td>";
                     str += "<td><img src='"+ problems[x].image_url +"' alt='"+ problems[x].image_name +"' style='height: 50px'</td>";
                     str += "<td>"+ problems[x].status +"</td>";
@@ -71,5 +73,16 @@
         str += "</table>";
         document.getElementById("faqs").innerHTML = str;
     });
+
+    function ChooseProblem(problem_key)
+    {
+        document.getElementById("problem_key").value = problem_key;
+        document.getElementById("showProblemBtn").disabled = false;
+    }
+
+    document.getElementById("showProblemBtn").onclick = function() {
+        problem_key = document.getElementById("problem_key").value;
+        window.location.href = "../ProblemDetail/"+ problem_key;
+    }
 </script>
 </html>

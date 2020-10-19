@@ -55,7 +55,7 @@
         window.location.href = url;
     }
 
-    var data_problems_done = firebase.database().ref("problems").orderByChild("status").equalTo(3);
+    var data_problems_done = firebase.database().ref("problems").orderByChild("status").equalTo("3");
     data_problems_done.on("value", function(snapshot) {
         info = snapshot.val();
         str = "<table border='1'>";
@@ -65,7 +65,7 @@
                 str += "<th>status</th>";
             str += "</tr>";
             for (x in info) {
-                str += "<tr onclick='ChooseProblem(\""+ x +"\", "+ info[x].status +")'>";
+                str += "<tr onclick='ChooseProblem(\""+ x +"\", \""+ info[x].status +"\")'>";
                     str += "<td>"+ info[x].content +"</td>";
                     str += "<td><img src='"+ info[x].image_url +"' alt='"+ info[x].image_name +"' style='height: 50px;'></td>";
                     str += "<td>"+ info[x].status +"</td>";
@@ -85,8 +85,8 @@
                 str += "<th>status</th>";
             str += "</tr>";
             for (x in info) {
-                if(info[x].status != 3) {
-                    str += "<tr onclick='ChooseProblem(\""+ x +"\", "+ info[x].status +")'>"
+                if(info[x].status != "3") {
+                    str += "<tr onclick='ChooseProblem(\""+ x +"\", \""+ info[x].status +"\")'>"
                         str += "<td>"+ info[x].content +"</td>";
                         str += "<td><img src='"+ info[x].image_url +"' alt='"+ info[x].image_name +"' style='height: 50px;'></td>";
                         str += "<td>"+ info[x].status +"</td>";
@@ -140,7 +140,7 @@
                     str += "<th>status</th>";
                 str += "</tr>";
                 for (x in works) {
-                    str += "<tr onclick='ChooseWork(\""+ x +"\", "+ works[x].status +")'>";
+                    str += "<tr onclick='ChooseWork(\""+ x +"\", \""+ works[x].status +"\")'>";
                         str += "<td>"+ works[x].work_name +"</td>";                        
                         str += "<td>"+ dsUser[works[x].user_fix] +"</td>";
                         str += "<td>"+ works[x].deadline +"</td>";
@@ -152,15 +152,15 @@
         });       
 
         // Test status
-        if(status == 0 || status == 1) {
+        if(status == "0" || status == "1") {
             document.getElementById("passProblemBtn").disabled = true;
             document.getElementById("createWorkBtn").disabled = false;
         }
-        else if(status == 2) {
+        else if(status == "2") {
             document.getElementById("passProblemBtn").disabled = false;
             document.getElementById("createWorkBtn").disabled = true;
         }
-        else if(status == 3) {
+        else if(status == "3") {
             document.getElementById("passProblemBtn").disabled = true;
             document.getElementById("createWorkBtn").disabled = true;
         }
@@ -179,13 +179,13 @@
     }
 
     function ChooseWork(work_key, status) {
-        if(status == 0) {
+        if(status == "0") {
             document.getElementById("updateWorkBtn").disabled = false;
             document.getElementById("deleteWorkBtn").disabled = false;
             document.getElementById("moveWorkBtn").disabled = true;
             document.getElementById("work_key").value = work_key;
         }
-        else if(status == 2) {
+        else if(status == "2") {
             document.getElementById("updateWorkBtn").disabled = true;
             document.getElementById("deleteWorkBtn").disabled = true;
             document.getElementById("moveWorkBtn").disabled = false;

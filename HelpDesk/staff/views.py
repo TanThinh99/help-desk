@@ -51,7 +51,7 @@ def PostCreateProblem(request):
 
     content = request.POST.get("content")
     image_url = request.POST.get("image_url")
-    status = 0
+    status = "0"
 
     data = {
         "user_create": uid,

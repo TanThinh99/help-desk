@@ -25,4 +25,5 @@ urlpatterns = [
     path("PassProblem/<problem_key>", views.GetPassProblem, name="Get_pass_problem"),
 
     path("ProblemDetail/<problem_key>", views.GetProblemDetail, name="Get_problem_detail"),
+    path("PostReply", views.PostReply, name="Post_reply"),
 ]

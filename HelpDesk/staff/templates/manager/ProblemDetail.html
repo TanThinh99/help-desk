@@ -6,6 +6,17 @@
     <title>Chi tiết sự cố</title>
 </head>
 <body>
+    <button>
+        {% if position_currently == "staff" %}
+            <a href="{% url 'Get_index' %}">
+        {% elif position_currently == "manager" %}
+            <a href="../Index">
+        {% elif position_currently == "technician" %}
+            <a href="../technician/Index">
+        {% endif %}
+        Trang chủ</a>
+    </button>
+    
     <h2>Chi tiết sự cố</h2>
     <h3>Thông tin người tạo sự cố</h3>
     <p>Họ tên: {{ user.name }}</p>
@@ -14,20 +25,18 @@
     <h3>Thông tin sự cố</h3>
     <p>Nội dung sự cố: {{ problem.content }}</p>
     <p>Hình ảnh sự cố: 
-        {% if problem.image_name == "" %}
-            Không có hình ảnh
-        {% else %}
-            <img src="{{ problem.image_url }}" alt="{{ problem.image_name }}" style="height: 200px">
+        {% if problem.image_url != "" %}
+            <img src="{{ problem.image_url }}" style="height: 200px">
         {% endif %}
     </p>
     <p>Trạng thái sự cố: 
-        {% if problem.status == 0 %}
+        {% if problem.status == "0" %}
             Đã gửi
-        {% elif problem.status == 1 %}
+        {% elif problem.status == "1" %}
             Đang điều tra
-        {% elif problem.status == 2 %}
+        {% elif problem.status == "2" %}
             Chờ duyệt
-        {% elif problem.status == 3 %}
+        {% elif problem.status == "3" %}
             Đã hoàn thành
         {% endif %}
     </p><hr>
@@ -35,12 +44,16 @@
     <h2>Phản hồi</h2>
     <div id="replies"></div><hr>
 
-    <form action="" method="post">
+    <form action="{% url 'Post_reply' %}" method="post" id="postReplyForm">
+        {% csrf_token %}
+        <input type="hidden" name="problem_key" id="problem_key" value="{{ problem_key }}">
+
         <label for="content">Nội dung</label><br>
-        <textarea name="content" id="content" cols="40" rows="3"></textarea><br><br>
+        <textarea name="content" id="content" cols="45" rows="3" required></textarea><br><br>
 
         <label for="image">Chọn ảnh</label>
-        <input type="file" name="image" id="image"><br><br>
+        <input type="file" name="image" id="image">
+        <input type="hidden" name="image_url" id="image_url" value=""><br><br>
 
         <input type="button" value="Gửi phản hồi" id="guiPhanHoiBtn">
         <input type="reset" value="Làm lại">
@@ -59,5 +72,68 @@
         "measurementId": "G-R11CH76CNH"
     }
     firebase.initializeApp(firebaseConfig)
+
+    var dsUser = [];
+    users = firebase.database().ref("users").once("value", function(snapshot) {
+        users = snapshot.val()
+        for(key in users)
+        {
+            dsUser[key] = users[key].name;
+        }   
+    });
+
+    problem_key = document.getElementById("problem_key").value;
+    data_reply = firebase.database().ref("replies").orderByChild("problem").equalTo(problem_key);
+    data_reply.on("value", function(snapshot) {
+        replies = snapshot.val();
+        str = "";
+        for(key in replies)
+        {
+            str += "<div style='border: 1px dashed gray; margin: 4px 0px 4px 0px; padding-left: 6px'>";
+                str += "<p>";
+                    str += "<strong>"+ dsUser[replies[key].user_create] +"</strong>";
+                    str += " <em>"+ replies[key].time +"</em>";
+                str += "</p>";
+                str += "<p>"+ replies[key].content +"</p>";
+                if(replies[key].image_url != "")
+                {
+                    str += "<img src='"+ replies[key].image_url +"' style='height: 80px'>";
+                }                
+            str += "</div>";
+        }
+        document.getElementById("replies").innerHTML = str;
+    });
+
+    document.getElementById("guiPhanHoiBtn").onclick = function() 
+    {
+        file = document.getElementById("image").files[0];
+        if(file != undefined)
+        {
+            d = new Date();
+            now = d.toISOString()
+
+            storage = firebase.storage();
+            storageRef = storage.ref();
+            thisRef = storageRef.child(now).put(file);
+
+            thisRef.on("state_changed", function(snapshot) {
+                console.log("Upload file successful");
+            },
+            function(error) {
+
+            },
+            function() {
+                //Download url of file
+                thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    document.getElementById("image_url").value = downloadURL;
+                    document.getElementById("postReplyForm").submit();
+                })
+            })
+        }
+        else
+        {
+            document.getElementById("postReplyForm").submit();
+        }
+    }
 </script>
 </html>
