@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sự cố</title>
+</head>
+<body>
+    <h2>Chi tiết sự cố</h2>
+    <h3>Thông tin người tạo sự cố</h3>
+    <p>Họ tên: {{ user.name }}</p>
+    <p>Email: {{ user.email }}</p>
+
+    <h3>Thông tin sự cố</h3>
+    <p>Nội dung sự cố: {{ problem.content }}</p>
+    <p>Hình ảnh sự cố: 
+        {% if problem.image_name == "" %}
+            Không có hình ảnh
+        {% else %}
+            <img src="{{ problem.image_url }}" alt="{{ problem.image_name }}" style="height: 200px">
+        {% endif %}
+    </p>
+    <p>Trạng thái sự cố: 
+        {% if problem.status == 0 %}
+            Đã gửi
+        {% elif problem.status == 1 %}
+            Đang điều tra
+        {% elif problem.status == 2 %}
+            Chờ duyệt
+        {% elif problem.status == 3 %}
+            Đã hoàn thành
+        {% endif %}
+    </p><hr>
+    
+    <h2>Phản hồi</h2>
+    <div id="replies"></div><hr>
+
+    <form action="" method="post">
+        <label for="content">Nội dung</label><br>
+        <textarea name="content" id="content" cols="40" rows="3"></textarea><br><br>
+
+        <label for="image">Chọn ảnh</label>
+        <input type="file" name="image" id="image"><br><br>
+
+        <input type="button" value="Gửi phản hồi" id="guiPhanHoiBtn">
+        <input type="reset" value="Làm lại">
+    </form>
+</body>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+<script>
+    var firebaseConfig = {
+        "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
+        "authDomain": "help-desk-12c4d.firebaseapp.com",
+        "databaseURL": "https://help-desk-12c4d.firebaseio.com",
+        "projectId": "help-desk-12c4d",
+        "storageBucket": "help-desk-12c4d.appspot.com",
+        "messagingSenderId": "137334382999",
+        "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
+        "measurementId": "G-R11CH76CNH"
+    }
+    firebase.initializeApp(firebaseConfig)
+</script>
+</html>

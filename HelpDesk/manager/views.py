@@ -26,7 +26,16 @@ def GetIndex(request):
     uid = user[0].get("localId")
     infoUser = database.child("users").child(uid).get().val()
     name = infoUser.get("name")
-    return render(request, "manager/Index.html", {"name": name})
+    try:
+        thongBao = request.session["thongBao"]
+        del request.session["thongBao"]
+        data = {
+            "thongBao": thongBao,
+            "name": name
+        }
+    except KeyError:
+        data = {"name": name}
+    return render(request, "manager/Index.html", data)
 
 
 def GetSignIn(request):
@@ -51,7 +60,7 @@ def PostSignIn(request):
     info = database.child("users").child(uid).get().val()
     name = info.get("name")
     position = info.get("position")
-
+    request.session["thongBao"] = "Day la thong bao abc"
     if position == "staff":
         return redirect("staff/Index")
     elif position == "manager":
@@ -219,3 +228,11 @@ def GetPassProblem(request, problem_key):
     }
     database.child("problems").child(problem_key).update(data)
     return redirect("../Index")
+
+
+def GetProblemDetail(request, problem_key):
+    problem = database.child("problems").child(problem_key).get().val()
+    uid = problem.get("user_create")
+    user = database.child("users").child(uid).get().val()
+
+    return render(request, "manager/ProblemDetail.html", {"problem": problem, "user": user})

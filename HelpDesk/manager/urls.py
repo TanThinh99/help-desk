@@ -23,4 +23,6 @@ urlpatterns = [
     path("DeleteWork/<work_key>", views.GetDeleteWork, name="Get_delete_work"),
 
     path("PassProblem/<problem_key>", views.GetPassProblem, name="Get_pass_problem"),
+
+    path("ProblemDetail/<problem_key>", views.GetProblemDetail, name="Get_problem_detail"),
 ]

@@ -14,7 +14,6 @@
 
         <label for="image">Hình ảnh vấn đề (nếu có)</label>
         <input type="file" name="image" id="image"><br><br>
-        <input type="hidden" name="image_name" id="image_name" value="">
         <input type="hidden" name="image_url" id="image_url" value="">
         
         <input type="button" value="Gửi báo cáo" id="submitBtn">
@@ -36,29 +35,36 @@
     firebase.initializeApp(firebaseConfig)
 
     document.getElementById("submitBtn").onclick = function() {
-            // UploadFile
         file = document.getElementById("image").files[0];
+        if(file != undefined)
+        {
+            d = new Date();
+            now = d.toISOString();
+                // UploadFile
+            storage = firebase.storage();
 
-        storage = firebase.storage();
+            storageRef = storage.ref();
 
-        storageRef = storage.ref();
+            thisRef = storageRef.child(now).put(file);
 
-        thisRef = storageRef.child(file.name).put(file);
+            thisRef.on("state_changed", function(snapshot) {
+                console.log("Upload file successfully");
+            },
+            function(error) {
 
-        thisRef.on("state_changed", function(snapshot) {
-            console.log("Upload file successfully");
-        },
-        function(error) {
-
-        },
-        function() {
-            // Upload file done, download url of file
-            thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                document.getElementById("image_url").value = downloadURL;
-                document.getElementById("image_name").value = file.name;
-                document.getElementById("createProblemForm").submit();
+            },
+            function() {
+                // Upload file done, download url of file
+                thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    document.getElementById("image_url").value = downloadURL;
+                    document.getElementById("createProblemForm").submit();
+                });
             });
-        });
+        }
+        else
+        {
+            document.getElementById("createProblemForm").submit();
+        }        
     }
 </script>
 </html>

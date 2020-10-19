@@ -8,9 +8,9 @@
 <body>
     <h1>Welcome Manager</h1>
     Chào quản lý {{ name }}
-    <button onclick="ToURL('CreateAccount')">Tạo tài khoản</button>
-    <button onclick="ToURL('CreateFAQ')">Tạo FAQ</button>
-    <button onclick="ToURL('../../logout')">Đăng xuất</button>
+    <button><a href="{% url 'Get_create_account' %}">Tạo tài khoản</a></button>
+    <button><a href="{% url 'Get_create_faq' %}">Tạo FAQ</a></button>
+    <button><a href="{% url 'Logout' %}">Đăng xuất</a></button>
 
     <h3>Danh sách sự cố đã được giải quyết</h3>
     <div id="problemsDone"></div>
@@ -19,6 +19,7 @@
     <div id="problemsNotDone"></div>
     <button id="createWorkBtn" disabled>Tạo công việc</button>
     <button id="passProblemBtn" disabled>Duyệt sự cố</button>
+    <button id="showProblemDetailBtn" disabled>Xem chi tiết sự cố</button>
     <input type="hidden" name="problem_key" id="problem_key" value=""><hr>
 
     <h3>Danh sách công việc theo sự cố</h3><hr>
@@ -30,6 +31,11 @@
 
     <h3>Danh sách FAQ</h3><hr>
     <div id="faqs"></div>
+    {% if thongBao %}
+        <script>
+            alert("{{ thongBao }}");
+        </script>
+    {% endif %}
 </body>
 <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 <script>
@@ -120,6 +126,7 @@
 
     function ChooseProblem(problem_key, status) {
         document.getElementById("problem_key").value = problem_key;
+        document.getElementById("showProblemDetailBtn").disabled = false;
 
         // Change works follow problems
         var data_work = firebase.database().ref("works").orderByChild("problem").equalTo(problem_key);
@@ -206,6 +213,11 @@
     document.getElementById("moveWorkBtn").onclick = function() {
         work_key = document.getElementById("work_key").value;
         window.location.href = "UpdateWork/"+ work_key;
+    }
+
+    document.getElementById("showProblemDetailBtn").onclick = function() {
+        key = document.getElementById("problem_key").value;
+        window.location.href = "ProblemDetail/"+ key;
     }
 </script>
 </html>
