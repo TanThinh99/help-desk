@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang chủ</title>
+    {% load static %}
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="{% static 'js/firebase_config.js' %}"></script>
 </head>
 <body>
     <h2>Đây là trang chủ</h2>
@@ -14,75 +17,10 @@
     
     <h3>Danh sách sự cố</h3>
     <div id="problems"></div>
-    <input type="hidden" name="problem_key" id="problem_key" value="">
-    <button id="showProblemBtn" disabled>Xem chi tiết sự cố</button>
 
     <h3>Danh sách FAQ</h3>
     <div id="faqs"></div>
 
+    <script src="{% static 'js/staff/Index.js' %}"></script>
 </body>
-<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-<script>
-    var firebaseConfig = {
-        "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
-        "authDomain": "help-desk-12c4d.firebaseapp.com",
-        "databaseURL": "https://help-desk-12c4d.firebaseio.com",
-        "projectId": "help-desk-12c4d",
-        "storageBucket": "help-desk-12c4d.appspot.com",
-        "messagingSenderId": "137334382999",
-        "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
-        "measurementId": "G-R11CH76CNH"
-    }
-    firebase.initializeApp(firebaseConfig)
-
-    user = document.getElementById("user").value;
-    data_problem = firebase.database().ref("problems").orderByChild("user_create").equalTo(user);
-    data_problem.once("value", function(snapshot) {
-        problems = snapshot.val();
-        str = "<table border='1'>";
-            str += "<tr>";
-                str += "<th>content</th>";
-                str += "<th>image</th>";
-                str += "<th>status</th>";
-            str += "</tr>";
-            for(x in problems) {
-                str += "<tr onclick='ChooseProblem(\""+ x +"\")'>";
-                    str += "<td>"+ problems[x].content +"</td>";
-                    str += "<td><img src='"+ problems[x].image_url +"' alt='"+ problems[x].image_name +"' style='height: 50px'</td>";
-                    str += "<td>"+ problems[x].status +"</td>";
-                str += "</tr>";
-            }
-        str += "</table>";
-        document.getElementById("problems").innerHTML = str;
-    });
-
-    var data_faq = firebase.database().ref("faqs");
-    data_faq.once("value", function(snapshot) {
-        faqs = snapshot.val();
-        str = "<table border='1'>";
-            str += "<tr>";
-                str += "<th>question</th>";
-                str += "<th>answer</th>";
-            str += "</tr>";
-            for(x in faqs) {
-                str += "<tr>";
-                    str += "<td>"+ faqs[x].question +"</td>";
-                    str += "<td>"+ faqs[x].answer +"</td>";
-                str += "</tr>";
-            }
-        str += "</table>";
-        document.getElementById("faqs").innerHTML = str;
-    });
-
-    function ChooseProblem(problem_key)
-    {
-        document.getElementById("problem_key").value = problem_key;
-        document.getElementById("showProblemBtn").disabled = false;
-    }
-
-    document.getElementById("showProblemBtn").onclick = function() {
-        problem_key = document.getElementById("problem_key").value;
-        window.location.href = "../ProblemDetail/"+ problem_key;
-    }
-</script>
 </html>

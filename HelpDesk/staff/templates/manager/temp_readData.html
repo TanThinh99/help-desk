@@ -20,6 +20,9 @@
 
     <h2>faqs</h2>
     <div id="faqs"></div>
+	
+	<h2>replies</h2>
+    <div id="replies"></div>
 </body>
 <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 <script>
@@ -65,7 +68,6 @@
                 str += "<th>key</th>";
                 str += "<th>user_create</th>";
                 str += "<th>content</th>";
-                str += "<th>image_name</th>";
                 str += "<th>image_url</th>";
                 str += "<th>status</th>";
             str += "</tr>";
@@ -74,7 +76,6 @@
                     str += "<td>"+ x +"</td>";
                     str += "<td>"+ problems[x].user_create +"</td>";
                     str += "<td>"+ problems[x].content +"</td>";
-                    str += "<td>"+ problems[x].image_name +"</td>";
                     str += "<td>"+ problems[x].image_url +"</td>";
                     str += "<td>"+ problems[x].status +"</td>";
                 str += "</tr>";
@@ -157,6 +158,32 @@
             }
         str += "</table>";
         document.getElementById("faqs").innerHTML = str;
+    });
+	
+	var data_reply = firebase.database().ref("replies");
+    data_reply.once("value", function(snapshot) {
+        replies = snapshot.val();
+        str = "<table border='1'>";
+            str += "<tr>";
+                str += "<th>key</th>";
+                str += "<th>content</th>";
+                str += "<th>image_url</th>";
+				str += "<th>problem</th>";
+				str += "<th>time</th>";
+				str += "<th>user_create</th>";
+            str += "</tr>";
+            for(x in replies) {
+                str += "<tr>";
+                    str += "<td>"+ x +"</td>";
+                    str += "<td>"+ replies[x].content +"</td>";
+                    str += "<td>"+ replies[x].image_url +"</td>";
+					str += "<td>"+ replies[x].problem +"</td>";
+					str += "<td>"+ replies[x].time +"</td>";
+					str += "<td>"+ replies[x].user_create +"</td>";
+                str += "</tr>";
+            }
+        str += "</table>";
+        document.getElementById("replies").innerHTML = str;
     });
 </script>
 </html>

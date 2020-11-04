@@ -59,7 +59,6 @@ def PostSignIn(request):
     # Get User information
     uid = user.get("localId")
     position = database.child("users").child(uid).child("position").get().val()
-    request.session["thongBao"] = "Day la thong bao abc"
     if position == "staff":
         return redirect("staff/Index")
     elif position == "manager":
@@ -117,6 +116,34 @@ def PostCreateFAQ(request):
     }
     database.child("faqs").push(data)
     return redirect("../Index")
+
+
+def GetUpdateFAQ(request, faq_key):
+    faq = database.child("faqs").child(faq_key).get().val()
+    return render(request, "manager/UpdateFAQ.html", {"faq_key": faq_key, "faq": faq})
+
+
+def PostUpdateFAQ(request, faq_key):
+    question = request.POST.get("question")
+    answer   = request.POST.get("answer")
+    data = {
+        "question": question,
+        "answer": answer
+    }
+    database.child("faqs").child(faq_key).update(data)
+    request.session["thongBao"] = "Cập nhật FAQ thành công"
+    return redirect("../Index")
+
+
+def DeleteFAQ(request):
+    faq_key = request.GET.get("faq_key")
+    string = ""
+    try:
+        works = database.child("works").order_by_child("faq").equal_to(faq_key).get().val()
+        string = "FAQ đã được dùng cho work nào đó, không thể xóa FAQ này!!"
+    except:
+        database.child("faqs").child(faq_key).remove()
+    return render(request, "manager/temp.html", {"data": string})
 
 
 def GetCreateWork(request, problem_key):    
@@ -213,17 +240,20 @@ def PostUpdateWork(request):
     return redirect("../Index")
 
 
-def GetDeleteWork(request, work_key):
+def GetDeleteWork(request):
+    work_key = request.GET.get("work_key")
+
     database.child("works").child(work_key).remove()
-    return redirect("../Index")
+    return render(request, "manager/temp.html")
 
 
-def GetPassProblem(request, problem_key):
+def GetPassProblem(request):
+    problem_key = request.GET.get("problem_key")
     data = {
         "status": "3"
     }
     database.child("problems").child(problem_key).update(data)
-    return redirect("../Index")
+    return render(request, "manager/temp.html")
 
 
 def GetProblemDetail(request, problem_key):
@@ -251,7 +281,7 @@ def GetProblemDetail(request, problem_key):
     return render(request, "manager/ProblemDetail.html", data)
 
 
-def PostReply(request):
+def CreateReply(request):
     try:
         token = request.session["token"]
     except KeyError:
@@ -261,16 +291,14 @@ def PostReply(request):
     user = users[0]
     uid = user.get("localId")
 
-    problem_key = request.POST.get("problem_key")
-    content     = request.POST.get("content")
-    image_url   = request.POST.get("image_url")
+    problem_key = request.GET.get("problem_key")
+    content     = request.GET.get("content")
+    image_url   = request.GET.get("image_url")
+    if(image_url == "0"):
+        image_url = ""
 
     d = datetime.datetime.now()
     time = str(d.hour) +":"+ str(d.minute) +":"+ str(d.second) +" "+ str(d.day) +"-"+ str(d.month) +"-"+ str(d.year)
-    
-    amount = database.child("problems").child(problem_key).child("amount_of_reply").get().val()
-    amount = str(int(amount) + 1)
-    key = amount +"_"+ problem_key
     data = {
         "problem": problem_key,
         "user_create": uid,
@@ -278,9 +306,5 @@ def PostReply(request):
         "image_url": image_url,
         "time": time
     }
-    database.child("replies").child(key).set(data)
-
-    # Update amount_of_reply in problem
-    data = {"amount_of_reply": amount}
-    database.child("problems").child(problem_key).update(data)
-    return redirect("ProblemDetail/"+ problem_key)
+    database.child("replies").push(data)
+    return render(request, "manager/temp.html", {"data": ""})

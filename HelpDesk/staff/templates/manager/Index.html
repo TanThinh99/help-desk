@@ -4,220 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load static %}
+    <script src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="{% static 'js/firebase_config.js' %}"></script>
 </head>
 <body>
     <h1>Welcome Manager</h1>
     Chào quản lý {{ name }}
     <button><a href="{% url 'Get_create_account' %}">Tạo tài khoản</a></button>
-    <button><a href="{% url 'Get_create_faq' %}">Tạo FAQ</a></button>
     <button><a href="{% url 'Logout' %}">Đăng xuất</a></button>
 
     <h3>Danh sách sự cố đã được giải quyết</h3>
     <div id="problemsDone"></div>
 
     <h3>Danh sách sự cố chưa được giải quyết</h3>
-    <div id="problemsNotDone"></div>
-    <button id="createWorkBtn" disabled>Tạo công việc</button>
-    <button id="passProblemBtn" disabled>Duyệt sự cố</button>
-    <button id="showProblemDetailBtn" disabled>Xem chi tiết sự cố</button>
-    <input type="hidden" name="problem_key" id="problem_key" value=""><hr>
+    <div id="problemsNotDone"></div><hr>
 
-    <h3>Danh sách công việc theo sự cố</h3><hr>
-    <div id="works"></div>
-    <button id="updateWorkBtn" disabled>Thay đổi thông tin công việc</button>
-    <button id="deleteWorkBtn" disabled>Xóa công việc</button>
-    <button id="moveWorkBtn" disabled>Chuyển công việc</button>
-    <input type="hidden" name="work_key" id="work_key" value="">
+    <h3>Danh sách công việc theo sự cố</h3>
+    <div id="works"></div><hr>
 
-    <h3>Danh sách FAQ</h3><hr>
+    <h3>Danh sách FAQ</h3>
+    <p><button><a href="{% url 'Get_create_faq' %}">Tạo FAQ</a></button></p>
     <div id="faqs"></div>
     {% if thongBao %}
         <script>
             alert("{{ thongBao }}");
         </script>
     {% endif %}
+
+    <script src="{% static 'js/manager/Index.js' %}"></script>
 </body>
-<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-<script>
-    var firebaseConfig = {
-        "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
-        "authDomain": "help-desk-12c4d.firebaseapp.com",
-        "databaseURL": "https://help-desk-12c4d.firebaseio.com",
-        "projectId": "help-desk-12c4d",
-        "storageBucket": "help-desk-12c4d.appspot.com",
-        "messagingSenderId": "137334382999",
-        "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
-        "measurementId": "G-R11CH76CNH"
-    }
-    firebase.initializeApp(firebaseConfig)
-
-    function ToURL(url) {
-        window.location.href = url;
-    }
-
-    var data_problems_done = firebase.database().ref("problems").orderByChild("status").equalTo("3");
-    data_problems_done.on("value", function(snapshot) {
-        info = snapshot.val();
-        str = "<table border='1'>";
-            str += "<tr>";
-                str += "<th>content</th>";
-                str += "<th>image</th>";
-                str += "<th>status</th>";
-            str += "</tr>";
-            for (x in info) {
-                str += "<tr onclick='ChooseProblem(\""+ x +"\", \""+ info[x].status +"\")'>";
-                    str += "<td>"+ info[x].content +"</td>";
-                    str += "<td><img src='"+ info[x].image_url +"' alt='"+ info[x].image_name +"' style='height: 50px;'></td>";
-                    str += "<td>"+ info[x].status +"</td>";
-                str += "</tr>";
-            }
-        str += "</table>";
-        document.getElementById("problemsDone").innerHTML = str;
-    });
-
-    var data_problems = firebase.database().ref("problems");
-    data_problems.on("value", function(snapshot) {
-        info = snapshot.val();
-        str = "<table border='1'>";
-            str += "<tr>";
-                str += "<th>content</th>";
-                str += "<th>image</th>";
-                str += "<th>status</th>";
-            str += "</tr>";
-            for (x in info) {
-                if(info[x].status != "3") {
-                    str += "<tr onclick='ChooseProblem(\""+ x +"\", \""+ info[x].status +"\")'>"
-                        str += "<td>"+ info[x].content +"</td>";
-                        str += "<td><img src='"+ info[x].image_url +"' alt='"+ info[x].image_name +"' style='height: 50px;'></td>";
-                        str += "<td>"+ info[x].status +"</td>";
-                    str += "</tr>";
-                }
-            }
-        str += "</table>";
-        document.getElementById("problemsNotDone").innerHTML = str;
-    });
-
-    var data_faq = firebase.database().ref("faqs");
-    data_faq.once("value", function(snapshot) {
-        faqs = snapshot.val();
-        str = "<table border='1'>";
-            str += "<tr>";
-                str += "<th>question</th>";
-                str += "<th>answer</th>";
-            str += "</tr>";
-            for (x in faqs) {
-                str += "<tr>";
-                    str += "<td>"+ faqs[x].question +"</td>";
-                    str += "<td>"+ faqs[x].answer +"</td>";
-                str += "</tr>";
-            }
-        str += "</table>";
-        document.getElementById("faqs").innerHTML = str;
-    });
-
-        // Get user_name for work follow problems
-    dsUser = []
-    data_user = firebase.database().ref("users").once('value', function(snapshot) {
-        users = snapshot.val()
-        for(x in users) {
-            dsUser[x] = users[x].name;
-        }
-    });
-
-    function ChooseProblem(problem_key, status) {
-        document.getElementById("problem_key").value = problem_key;
-        document.getElementById("showProblemDetailBtn").disabled = false;
-
-        // Change works follow problems
-        var data_work = firebase.database().ref("works").orderByChild("problem").equalTo(problem_key);
-        data_work.on("value", function(snapshot) {
-            works = snapshot.val();
-            str = "<table border='1'>";
-                str += "<tr>";
-                    str += "<th>work_name</th>";
-                    str += "<th>user_fix</th>";
-                    str += "<th>deadline</th>";
-                    str += "<th>status</th>";
-                str += "</tr>";
-                for (x in works) {
-                    str += "<tr onclick='ChooseWork(\""+ x +"\", \""+ works[x].status +"\")'>";
-                        str += "<td>"+ works[x].work_name +"</td>";                        
-                        str += "<td>"+ dsUser[works[x].user_fix] +"</td>";
-                        str += "<td>"+ works[x].deadline +"</td>";
-                        str += "<td>"+ works[x].status +"</td>";
-                    str += "</tr>";
-                }
-            str += "</table>";
-            document.getElementById("works").innerHTML = str;
-        });       
-
-        // Test status
-        if(status == "0" || status == "1") {
-            document.getElementById("passProblemBtn").disabled = true;
-            document.getElementById("createWorkBtn").disabled = false;
-        }
-        else if(status == "2") {
-            document.getElementById("passProblemBtn").disabled = false;
-            document.getElementById("createWorkBtn").disabled = true;
-        }
-        else if(status == "3") {
-            document.getElementById("passProblemBtn").disabled = true;
-            document.getElementById("createWorkBtn").disabled = true;
-        }
-    }
-
-    document.getElementById("passProblemBtn").onclick = function() {
-        if(confirm("Bạn sẽ duyệt sự cố này?")) {
-            key = document.getElementById("problem_key").value;
-            window.location.href = "PassProblem/"+ key;
-        }
-    }
-
-    document.getElementById("createWorkBtn").onclick = function() {
-        key = document.getElementById("problem_key").value;
-        window.location.href = "CreateWork/"+ key;
-    }
-
-    function ChooseWork(work_key, status) {
-        if(status == "0") {
-            document.getElementById("updateWorkBtn").disabled = false;
-            document.getElementById("deleteWorkBtn").disabled = false;
-            document.getElementById("moveWorkBtn").disabled = true;
-            document.getElementById("work_key").value = work_key;
-        }
-        else if(status == "2") {
-            document.getElementById("updateWorkBtn").disabled = true;
-            document.getElementById("deleteWorkBtn").disabled = true;
-            document.getElementById("moveWorkBtn").disabled = false;
-            document.getElementById("work_key").value = work_key;
-        }
-        else {
-            document.getElementById("updateWorkBtn").disabled = true;
-            document.getElementById("deleteWorkBtn").disabled = true;
-            document.getElementById("moveWorkBtn").disabled = true;
-        }
-    }
-
-    document.getElementById("updateWorkBtn").onclick = function() {
-        work_key = document.getElementById("work_key").value;
-        window.location.href = "UpdateWork/"+ work_key;
-    }
-
-    document.getElementById("deleteWorkBtn").onclick = function() {
-        if(confirm("Bạn sẽ xóa công việc này?")) {
-            work_key = document.getElementById("work_key").value;
-            window.location.href = "DeleteWork/"+ work_key;
-        }
-    }
-
-    document.getElementById("moveWorkBtn").onclick = function() {
-        work_key = document.getElementById("work_key").value;
-        window.location.href = "UpdateWork/"+ work_key;
-    }
-
-    document.getElementById("showProblemDetailBtn").onclick = function() {
-        key = document.getElementById("problem_key").value;
-        window.location.href = "ProblemDetail/"+ key;
-    }
-</script>
 </html>

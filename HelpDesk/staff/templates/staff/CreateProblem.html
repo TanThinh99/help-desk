@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create problem</title>
+    {% load static %}
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="{% static 'js/firebase_config.js' %}"></script>
 </head>
 <body>
     <form action="{% url 'Post_create_problem' %}" method="post" id="createProblemForm">
@@ -19,52 +22,7 @@
         <input type="button" value="Gửi báo cáo" id="submitBtn">
         <input type="reset" value="Làm lại">
     </form>
+
+    <script src="{% static 'js/staff/CreateProblem.js' %}"></script>
 </body>
-<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-<script>
-    var firebaseConfig = {
-        "apiKey": "AIzaSyC22V25o9VKeIPEAVFBfgvguv_C5dlWzn4",
-        "authDomain": "help-desk-12c4d.firebaseapp.com",
-        "databaseURL": "https://help-desk-12c4d.firebaseio.com",
-        "projectId": "help-desk-12c4d",
-        "storageBucket": "help-desk-12c4d.appspot.com",
-        "messagingSenderId": "137334382999",
-        "appId": "1:137334382999:web:73f716f1b85c76f1c724d2",
-        "measurementId": "G-R11CH76CNH"
-    }
-    firebase.initializeApp(firebaseConfig)
-
-    document.getElementById("submitBtn").onclick = function() {
-        file = document.getElementById("image").files[0];
-        if(file != undefined)
-        {
-            d = new Date();
-            now = d.toISOString();
-                // UploadFile
-            storage = firebase.storage();
-
-            storageRef = storage.ref();
-
-            thisRef = storageRef.child(now).put(file);
-
-            thisRef.on("state_changed", function(snapshot) {
-                console.log("Upload file successfully");
-            },
-            function(error) {
-
-            },
-            function() {
-                // Upload file done, download url of file
-                thisRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                    document.getElementById("image_url").value = downloadURL;
-                    document.getElementById("createProblemForm").submit();
-                });
-            });
-        }
-        else
-        {
-            document.getElementById("createProblemForm").submit();
-        }        
-    }
-</script>
 </html>
