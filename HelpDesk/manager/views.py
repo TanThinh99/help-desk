@@ -179,7 +179,8 @@ def PostCreateWork(request):
         "user_fix": user_fix,
         "deadline": deadline,
         "faq": faq,
-        "status": "0"
+        "status": "0",
+        "solution": ""
     }
     database.child("works").push(data)
     
