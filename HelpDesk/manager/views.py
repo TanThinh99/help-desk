@@ -146,22 +146,26 @@ def DeleteFAQ(request):
     return render(request, "manager/temp.html", {"data": string})
 
 
-def GetCreateWork(request, problem_key):    
+def GetCreateWork(request, problem_key): 
+    user_zip = ""   
     users = database.child("users").order_by_child("position").equal_to("technician").get().val()
-    keyList = []
-    nameList = []
-    for key in users:
-        keyList.append(key)
-        nameList.append(users[key].get("name"))
-    user_zip = zip(keyList, nameList)
+    if users is not None:
+        keyList = []
+        nameList = []
+        for key in users:
+            keyList.append(key)
+            nameList.append(users[key].get("name"))
+        user_zip = zip(keyList, nameList)
 
+    faq_zip = ""
     faqs = database.child("faqs").get().val()
-    keyList = []
-    questionList = []
-    for key in faqs:
-        keyList.append(key)
-        questionList.append(faqs[key].get("question"))
-    faq_zip = zip(keyList, questionList)
+    if(faqs is not None):
+        keyList = []
+        questionList = []
+        for key in faqs:
+            keyList.append(key)
+            questionList.append(faqs[key].get("question"))
+        faq_zip = zip(keyList, questionList)
     return render(request, "manager/CreateWork.html", {"problem_key": problem_key, "user_zip": user_zip, "faq_zip": faq_zip})
 
 
@@ -197,21 +201,25 @@ def GetUpdateWork(request, work_key):
     work_name = work.get("work_name")
     deadline = work.get("deadline")
     
+    user_zip = ""
     users = database.child("users").order_by_child("position").equal_to("technician").get().val()
-    keyList = []
-    nameList = []
-    for key in users:
-        keyList.append(key)
-        nameList.append(users[key].get("name"))
-    user_zip = zip(keyList, nameList)
+    if users is not None:
+        keyList = []
+        nameList = []
+        for key in users:
+            keyList.append(key)
+            nameList.append(users[key].get("name"))
+        user_zip = zip(keyList, nameList)
 
+    faq_zip = ""
     faqs = database.child("faqs").get().val()
-    keyList = []
-    questionList = []
-    for key in faqs:
-        keyList.append(key)
-        questionList.append(faqs[key].get("question"))
-    faq_zip = zip(keyList, questionList)
+    if faqs is not None:
+        keyList = []
+        questionList = []
+        for key in faqs:
+            keyList.append(key)
+            questionList.append(faqs[key].get("question"))
+        faq_zip = zip(keyList, questionList)
     data = {
         "work_key": work_key,
         "work_name": work_name,

@@ -16,7 +16,14 @@ data_problems_done.on("value", function(snapshot) {
         for (x in info) {
             str += "<tr>";
                 str += "<td>"+ info[x].content +"</td>";
-                str += "<td><img src='"+ info[x].image_url +"' alt='"+ info[x].image_name +"' style='height: 50px;'></td>";
+                if(info[x].image_url != "")
+                {
+                    str += "<td><img src='"+ info[x].image_url +"' style='height: 50px;'></td>";
+                }
+                else
+                {
+                    str += "<td></td>";
+                }                
                 str += "<td>"+ info[x].status +"</td>";
                 str += "<td><button onclick='ProblemDetail(\""+ x +"\")'>Xem</button></td>";
                 str += "<td><button onclick='WorkList(\""+ x +"\")'>Các công việc</button></td>";
@@ -37,12 +44,20 @@ data_problems.on("value", function(snapshot) {
             str += "<th></th>";
             str += "<th></th>";
             str += "<th></th>";
+            str += "<th></th>";
         str += "</tr>";
         for (x in info) {
             if(info[x].status != "3") {
                 str += "<tr>";
                     str += "<td>"+ info[x].content +"</td>";
-                    str += "<td><img src='"+ info[x].image_url +"' alt='"+ info[x].image_name +"' style='height: 50px;'></td>";
+                    if(info[x].image_url != "")
+                    {
+                        str += "<td><img src='"+ info[x].image_url +"' style='height: 50px;'></td>";
+                    }
+                    else
+                    {
+                        str += "<td></td>";
+                    }
                     str += "<td>"+ info[x].status +"</td>";
                     str += "<td><button onclick='ProblemDetail(\""+ x +"\")'>Xem</button></td>";
                     if(info[x].status == "2")

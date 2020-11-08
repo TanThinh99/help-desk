@@ -12,7 +12,14 @@ data_problem.once("value", function(snapshot) {
         for(x in problems) {
             str += "<tr>";
                 str += "<td>"+ problems[x].content +"</td>";
-                str += "<td><img src='"+ problems[x].image_url +"' alt='"+ problems[x].image_name +"' style='height: 50px'</td>";
+                if(problems[x].image_url != "")
+                {
+                    str += "<td><img src='"+ problems[x].image_url +"' style='height: 50px;'></td>";
+                }
+                else
+                {
+                    str += "<td></td>";
+                }
                 str += "<td>"+ problems[x].status +"</td>";
                 str += "<td><button onclick='ProblemDetail(\""+ x +"\")'>Xem</button></td>";
             str += "</tr>";
