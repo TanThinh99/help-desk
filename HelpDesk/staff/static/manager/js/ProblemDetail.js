@@ -14,22 +14,22 @@ data_reply.on("value", function(snapshot) {
     str = "";
     for(key in replies)
     {
-        str += "<div style='border: 1px dashed gray; margin: 4px 0px 4px 0px; padding-left: 6px'>";
-            str += "<p>";
-                str += "<strong>"+ dsUser[replies[key].user_create] +"</strong>";
-                str += " <em>"+ replies[key].time +"</em>";
-            str += "</p>";
-            str += "<p>"+ replies[key].content +"</p>";
+        str += "<div class='feedback-item'>";
+            str += "<div>";
+                str += "<span class='name'>"+ dsUser[replies[key].user_create] +"</span>";
+                str += "<span class='time'>"+ replies[key].time +"</span>";
+            str += "</div>";
+            str += "<div class='content'>"+ replies[key].content +"</div>";
             if(replies[key].image_url != "")
             {
-                str += "<img src='"+ replies[key].image_url +"' style='height: 80px'>";
+                str += "<img src='"+ replies[key].image_url +"' onclick='ZoomImage(\""+ replies[key].image_url +"\")'>";
             }                
         str += "</div>";
     }
     document.getElementById("replies").innerHTML = str;
 });
 
-document.getElementById("guiPhanHoiBtn").onclick = function() 
+document.getElementById("createFeedbackBtn").onclick = function() 
 {
     var status = document.getElementById("status").value;
     if(status != "3")

@@ -27,15 +27,20 @@ def GetIndex(request):
     uid = user[0].get("localId")
     infoUser = database.child("users").child(uid).get().val()
     name = infoUser.get("name")
+    position_currently = infoUser.get("position")
     try:
         thongBao = request.session["thongBao"]
         del request.session["thongBao"]
         data = {
             "thongBao": thongBao,
-            "name": name
+            "name": name,
+            "position_currently": position_currently
         }
     except KeyError:
-        data = {"name": name}
+        data = {
+            "name": name,
+            "position_currently": position_currently    
+        }
     return render(request, "manager/Index.html", data)
 
 

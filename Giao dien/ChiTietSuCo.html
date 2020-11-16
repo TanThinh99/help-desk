@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết sự cố</title>
-    <link rel="stylesheet" href="css/Navi.css">
-    <link rel="stylesheet" href="css/ChiTietSuCo.css">
-    <link rel="stylesheet" href="css/ZoomImage.css">
+    <link rel="stylesheet" href="css/layout/Navi.css">
+    <link rel="stylesheet" href="css/manager/ChiTietSuCo.css">
+    <link rel="stylesheet" href="css/layout/ZoomImage.css">
 </head>
 <body>
     <h3 class="logoTitle">Helpdesk</h3>
@@ -50,49 +50,47 @@
 
     <div class="borderBetweenInfoAndFeedBack"></div>
     
-    <div class="feedbacks">
-        <div class="title">Phản hồi</div>
-        <div class="feedback-item">
-            <div>
-                <span class="name">
-                    helpdesk
-                </span>
-                <span class="time">
-                    23 Tháng Mười, 2020 7:10 chiều
-                </span>
-            </div>        
-            <div class="content">
-                À được đấy
-            </div>
-            <img src="image/problem.jpg" alt="" onclick="ZoomImage('image/problem.jpg')">
-        </div>   
-        <div class="feedback-item">
-            <div>
-                <span class="name">
-                    helpdesk
-                </span>
-                <span class="time">
-                    23 Tháng Mười, 2020 7:10 chiều
-                </span>
-            </div>        
-            <div class="content">
-                À được đấy
-            </div>
+    <div class="title">Phản hồi</div>
+    <div class="feedback-item">
+        <div>
+            <span class="name">
+                helpdesk
+            </span>
+            <span class="time">
+                23 Tháng Mười, 2020 7:10 chiều
+            </span>
+        </div>        
+        <div class="content">
+            À được đấy
         </div>
-        <div class="feedback-item">
-            <div>
-                <span class="name">
-                    helpdesk
-                </span>
-                <span class="time">
-                    23 Tháng Mười, 2020 7:10 chiều
-                </span>
-            </div>        
-            <div class="content">
-                À được đấy
-            </div>
-            <img src="image/problem.jpg" alt="" onclick="ZoomImage('image/problem.jpg')">
-        </div>             
+        <img src="image/problem.jpg" alt="" onclick="ZoomImage('image/problem.jpg')">
+    </div>   
+    <div class="feedback-item">
+        <div>
+            <span class="name">
+                helpdesk
+            </span>
+            <span class="time">
+                23 Tháng Mười, 2020 7:10 chiều
+            </span>
+        </div>        
+        <div class="content">
+            À được đấy
+        </div>
+    </div>
+    <div class="feedback-item">
+        <div>
+            <span class="name">
+                helpdesk
+            </span>
+            <span class="time">
+                23 Tháng Mười, 2020 7:10 chiều
+            </span>
+        </div>        
+        <div class="content">
+            À được đấy
+        </div>
+        <img src="image/problem.jpg" alt="" onclick="ZoomImage('image/problem.jpg')">
     </div>
 
     <div id="zoomImage">
@@ -102,21 +100,21 @@
         </div>
     </div>
 
-    <div>
-        <div class="title">Gửi phản hồi</div>
-        <div class="createFeedbackForm">
-            <form>
-                <label for="feedbackContent">Nội dung phản hồi:</label><br>
-                <textarea id="feedbackContent" cols="60" rows="6"></textarea><br>
-    
-                <label for="feedbackImage">Chọn ảnh (nếu có):</label>
-                <input type="file" id="feedbackImage"><br>
-    
-                <input type="button" value="Gửi" id="createFeedbackBtn">
-                <input type="reset" value="Làm lại" id="resetBtn">
-            </form>
-        </div>        
-    </div>
+    <div class="borderBetweenInfoAndFeedBack"></div>
+
+    <div class="title">Gửi phản hồi</div>
+    <div class="createFeedbackForm">
+        <form>
+            <label for="content">Nội dung phản hồi:</label><br>
+            <textarea id="content" cols="60" rows="6"></textarea><br>
+
+            <label for="image">Chọn ảnh (nếu có):</label>
+            <input type="file" id="image"><br>
+
+            <input type="button" value="Gửi" id="createFeedbackBtn">
+            <input type="reset" value="Làm lại" id="resetBtn">
+        </form>
+    </div>        
     <script src="js/ZoomImage.js"></script>
 </body>
 </html>

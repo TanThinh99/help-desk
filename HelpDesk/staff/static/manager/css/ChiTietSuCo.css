@@ -41,43 +41,40 @@ td {
   border-top: 1px solid #bdbaba;
   border-bottom: 1px solid #bdbaba;
   padding: 1px;
+  margin: 25px auto;
 }
 
-.feedbacks {
-  margin-top: 21px;
-}
-
-.feedbacks .feedback-item {
+.feedback-item {
   border: 1px solid #a6a6a6;
   padding: 8px 12px;
   margin: 17px auto;
   border-radius: 6px;
 }
 
-.feedbacks .feedback-item .name {
+.feedback-item .name {
   font-size: 19px;
   font-weight: bold;
   color: green;
 }
 
-.feedbacks .feedback-item .time {
+.feedback-item .time {
   font-size: 14px;
   font-style: italic;
   color: gray;
   margin-left: 10px;
 }
 
-.feedbacks .feedback-item .content {
+.feedback-item .content {
   font-size: 19px;
   color: black;
   margin: 10px 0px 10px 5px;
 }
 
-.feedbacks .feedback-item img {
+.feedback-item img {
   height: 70px;
 }
 
-.feedbacks .feedback-item img:hover {
+.feedback-item img:hover {
   cursor: pointer;
 }
 
@@ -98,7 +95,7 @@ td {
   color: black;
 }
 
-.createFeedbackForm form #feedbackContent {
+.createFeedbackForm #content {
   font-size: 17px;
   color: black;
   margin: 10px auto;
@@ -106,7 +103,7 @@ td {
   width: 100%;
 }
 
-.createFeedbackForm form #feedbackImage {
+.createFeedbackForm #image {
   padding: 7px 7px;
 }
 
