@@ -1,38 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    <script src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+{% extends 'manager/layout/Base.html' %}
+
+{% block title %}Trang chủ{% endblock %}
+
+{% load static %}
+
+{% block linkHead %}
+    <script src="{% static 'layout/js/jquery-3.5.0.min.js' %}"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-    <script src="{% static 'js/firebase_config.js' %}"></script>
-</head>
-<body>
-    <h1>Welcome Manager</h1>
-    Chào quản lý {{ name }}
-    <button><a href="{% url 'Get_create_account' %}">Tạo tài khoản</a></button>
-    <button><a href="{% url 'Logout' %}">Đăng xuất</a></button>
+    <script src="{% static 'layout/js/firebase_config.js' %}"></script>
 
-    <h3>Danh sách sự cố đã được giải quyết</h3>
-    <div id="problemsDone"></div>
+    <link rel="stylesheet" href="{% static 'manager/css/TrangChu.css' %}">
+    <link rel="stylesheet" href="{% static 'layout/css/ZoomImage.css' %}">
+{% endblock %}
 
-    <h3>Danh sách sự cố chưa được giải quyết</h3>
-    <div id="problemsNotDone"></div><hr>
+{% block content %}
+    <h3 class="sectionTitle">Chào quản lý {{ name }}</h3>
+    <div class="problemNotDone">
+        <div class="problemTable" id="problemsNotDoneTable">
+            <table border="1">
+                <tr>
+                    <th class="titleTable" colspan="4">
+                        Danh sách sự cố chưa giải quyết
+                    </th>
+                </tr>
+                <tr>
+                    <th>Nội dung</th>
+                    <th>Hình ảnh</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="workTable" id="worksOfProblemNotDone">
+            <table border="1">
+                <tr>
+                    <th class="titleTable" colspan="5">
+                        Danh sách công việc theo sự cố
+                    </th>
+                </tr>
+                <tr>
+                    <th>Tên công việc</th>
+                    <th>Người giải quyết</th>
+                    <th>Hạn chót</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-    <h3>Danh sách công việc theo sự cố</h3>
-    <div id="works"></div><hr>
+    <div class="problemDone">
+        <div class="problemTable" id="problemsDoneTable">
+            <table border="1">
+                <tr>
+                    <th class="titleTable" colspan="3">
+                        Danh sách sự cố đã được giải quyết
+                    </th>
+                </tr>
+                <tr>
+                    <th>Nội dung</th>
+                    <th>Hình ảnh</th>
+                    <th>Thao tác</th>
+                </tr>
+            </table>
+        </div>
+        <div class="workTable" id="worksOfProblemDone">
+            <table border="1">
+                <tr>
+                    <th class="titleTable" colspan="3">
+                        Danh sách công việc theo sự cố
+                    </th>
+                </tr>
+                <tr>
+                    <th>Tên công việc</th>
+                    <th>Người giải quyết</th>
+                    <th>Hạn chót</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <h3 class="sectionTitle">Danh sách FAQ</h3>
+    <table id="faqTable" border="1">
+        <tr>
+            <th class="widthQuestion">Câu hỏi</th>
+            <th class="widthAnswer">Trả lời</th>
+            <th class="widthFunction">Thao tác</th>
+        </tr>
+    </table>
 
-    <h3>Danh sách FAQ</h3>
-    <p><button><a href="{% url 'Get_create_faq' %}">Tạo FAQ</a></button></p>
-    <div id="faqs"></div>
-    {% if thongBao %}
-        <script>
-            alert("{{ thongBao }}");
-        </script>
-    {% endif %}
+    <div id="zoomImage">
+        <img src="" alt="" id="imageNeedZoom">
+        <div class="closeImageBtn">
+            <span onclick="CloseImage()">X</span>
+        </div>
+    </div>
+{% endblock %}
 
-    <script src="{% static 'js/manager/Index.js' %}"></script>
-</body>
-</html>
+{% block script %}
+    <script src="{% static 'manager/js/Index.js' %}"></script>
+    <script src="{% static 'layout/js/ZoomImage.js' %}"></script>
+{% endblock %}

@@ -11,7 +11,7 @@
     <h4>Về sự cố:</h4>
     <p>Được tạo bởi {{ user.name }}</p>
     <p>Nội dung sự cố: {{ problem.content }}</p>
-    <button><a href="../../ProblemDetail/{{ problem_key }}">Xem chi tiết sự cố</a></button><hr>
+    <button><a href="{% url 'manager:Get_problem_detail' problem_key %}">Xem chi tiết sự cố</a></button><hr>
 
     <h4>FAQ được gợi ý:</h4>
     {% if faq != "" %}
@@ -38,8 +38,8 @@
     <hr>
 
     {% if work.status == "0" or work.status == "1" %}
-        <button><a href="{% url 'Get_create_solution' work_key %}">Tạo giải pháp cho công việc này</a></button>
-        <button><a href="{% url 'Can_not_done' work_key %}" id="notDone">Báo cáo không thể hoàn thành công việc</a></button>
+        <button><a href="{% url 'technician:Get_create_solution' work_key %}">Tạo giải pháp cho công việc này</a></button>
+        <button><a href="{% url 'technician:Can_not_done' work_key %}" id="notDone">Báo cáo không thể hoàn thành công việc</a></button>
 
         <script>
             document.getElementById("notDone").onclick = function() {

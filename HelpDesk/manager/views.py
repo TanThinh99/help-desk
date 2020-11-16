@@ -19,8 +19,8 @@ def GetIndex(request):
     try:
         token = request.session['token']
     except KeyError:
-        string = "Bạn đã đăng xuất. Vui lòng đăng nhập lại 2!!"
-        return render(request, "staff/SignIn.html", {"report": string})
+        string = "Bạn đã đăng xuất. Vui lòng đăng nhập lại!!"
+        return render(request, "manager/SignIn.html", {"report": string})
 
     infoAccount = fire_auth.get_account_info(token)
     user = infoAccount["users"]
@@ -251,8 +251,30 @@ def PostUpdateWork(request):
 
 def GetDeleteWork(request):
     work_key = request.GET.get("work_key")
+    problem_key = database.child("works").child(work_key).child("problem").get().val()
 
     database.child("works").child(work_key).remove()
+
+        # Test and update problem if all works in problem are done
+    done = True
+    try:
+        works = database.child("works").order_by_child("problem").equal_to(problem_key).get().val()
+    except:
+        data = {
+            "status": "2"
+        }
+        database.child("problems").child(problem_key).update(data)
+        return render(request, "manager/temp.html")
+    
+    for x in works:
+        if works[x].get("status") != "3":
+            done = False
+            break
+    if done:
+        data = {
+            "status": "2"
+        }
+        database.child("problems").child(problem_key).update(data)
     return render(request, "manager/temp.html")
 
 

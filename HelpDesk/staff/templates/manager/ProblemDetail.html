@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết sự cố</title>
     {% load static %}
-    <script src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+    <script src="{% static 'layout/js/jquery-3.5.0.min.js' %}"></script>
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-    <script src="{% static 'js/firebase_config.js' %}"></script>
+    <script src="{% static 'layout/js/firebase_config.js' %}"></script>
 </head>
 <body>
     <button>
         {% if position_currently == "staff" %}
-            <a href="{% url 'Get_index' %}">
+            <a href="{% url 'staff:Get_index' %}">
         {% elif position_currently == "manager" %}
-            <a href="../Index">
+            <a href="{% url 'manager:Get_index' %}">
         {% elif position_currently == "technician" %}
-            <a href="../technician/Index">
+            <a href="{% url 'technician:Get_index' %}">
         {% endif %}
         Trang chủ</a>
     </button>
@@ -60,6 +60,6 @@
     <input type="button" value="Gửi phản hồi" id="guiPhanHoiBtn">
     <input type="button" value="Làm lại" onclick="ResetReply()">
 
-    <script src="{% static 'js/manager/ProblemDetail.js' %}"></script>
+    <script src="{% static 'manager/js/ProblemDetail.js' %}"></script>
 </body>
 </html>

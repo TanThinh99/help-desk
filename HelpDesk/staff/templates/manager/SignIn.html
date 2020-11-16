@@ -4,21 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'manager/css/DangNhap.css' %}">
 </head>
 <body>
-    <h2>Welcome to Help Desk</h2>
-    <form action="{% url 'Post_sign_in' %}" method="post">
-        {% csrf_token %}
+    <div class="login">
+        <form action="{% url 'manager:Post_sign_in' %}" method="post">
+            {% csrf_token %}
 
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email"><br><br>
-
-        <label for="password">Mật khẩu</label>
-        <input type="password" name="password" id="password"><br><br>
-
-        <input type="submit" value="Đăng nhập">
-    </form>
-
+            <p>
+                <label for="email">Email</label><br>
+                <input type="email" name="email" id="email">
+            </p>
+            
+            <p>
+                <label for="password">Mật khẩu</label><br>
+                <input type="password" name="password" id="password">
+            </p>
+            <input type="submit" value="Đăng nhập" id="loginBtn"> 
+        </form>
+    </div>
     {% if report %}
         <script>
             alert("{{ report }}");

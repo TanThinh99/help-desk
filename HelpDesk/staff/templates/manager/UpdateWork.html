@@ -6,7 +6,7 @@
     <title>Chuyển công việc</title>
 </head>
 <body>
-    <form action="{% url 'Post_update_work' %}" method="post">
+    <form action="{% url 'manager:Post_update_work' %}" method="post">
         {% csrf_token %}
 
         <label for="name">Tên công việc</label>

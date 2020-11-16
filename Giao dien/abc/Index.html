@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <script src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="{% static 'js/firebase_config.js' %}"></script>
+</head>
+<body>
+    <h1>Welcome Manager</h1>
+    Chào quản lý {{ name }}
+    <button><a href="{% url 'Get_create_account' %}">Tạo tài khoản</a></button>
+    <button><a href="{% url 'Logout' %}">Đăng xuất</a></button>
+
+    <h3>Danh sách sự cố đã được giải quyết</h3>
+    <div id="problemsDone"></div>
+
+    <h3>Danh sách sự cố chưa được giải quyết</h3>
+    <div id="problemsNotDone"></div><hr>
+
+    <h3>Danh sách công việc theo sự cố</h3>
+    <div id="works"></div><hr>
+
+    <h3>Danh sách FAQ</h3>
+    <p><button><a href="{% url 'Get_create_faq' %}">Tạo FAQ</a></button></p>
+    <div id="faqs"></div>
+    {% if thongBao %}
+        <script>
+            alert("{{ thongBao }}");
+        </script>
+    {% endif %}
+
+    <script src="{% static 'js/manager/Index.js' %}"></script>
+</body>
+</html>

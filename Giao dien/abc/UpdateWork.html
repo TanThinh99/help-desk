@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyển công việc</title>
+</head>
+<body>
+    <form action="{% url 'Post_update_work' %}" method="post">
+        {% csrf_token %}
+
+        <label for="name">Tên công việc</label>
+        <input type="text" name="name" id="name" value="{{ work_name }}" required><br><br>
+        <input type="hidden" name="work_key" value="{{ work_key }}">
+
+        <label for="user">Kỹ thuật viên giải quyết</label>
+        <select name="user" id="user">
+            {% for key, name in user_zip %}
+                <option value="{{ key }}">{{ name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="deadline">Hạn chót hoàn thành</label>
+        <input type="datetime-local" name="deadline" id="deadline" value="{{ deadline }}" required><br><br>
+
+        <label for="faq">Chọn gợi ý cho kỹ thuật viên</label>
+        <select name="faq" id="faq">
+            <option value="">Chọn FAQ</option>
+            {% for key, question in faq_zip %}
+                <option value="{{ key }}">{{ question }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Cập nhật công việc" id="updateWork">
+    </form>
+</body>
+<script>
+    document.getElementById("updateWork").onclick = function() {
+        if (confirm("Bạn sẽ cập nhật lại công việc này?")) {
+            return true;
+        }
+        return false;
+    }
+</script>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'layout/css/Navi.css' %}">
+    {% block linkHead %}{% endblock %}
+</head>
+<body>
+    <h3 class="logoTitle"><a href="{% url 'manager:Get_index' %}"></a>Helpdesk</h3>
+    <div class="navi">
+        <a href="{% url 'manager:Get_create_account' %}" class="navi-item">TẠO TÀI KHOẢN</a>
+        <a href="{% url 'manager:Get_create_faq' %}" class="navi-item">TẠO FAQ</a>
+        <a href="{% url 'manager:Logout' %}" class="navi-item">ĐĂNG XUẤT</a>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    {% block script %}{% endblock %}
+</body>
+</html>

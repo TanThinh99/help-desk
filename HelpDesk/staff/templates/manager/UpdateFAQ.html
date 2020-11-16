@@ -6,7 +6,7 @@
     <title>Update FAQ</title>
 </head>
 <body>
-    <form action="{% url 'Post_update_FAQ' faq_key %}" method="post">
+    <form action="{% url 'manager:Post_update_FAQ' faq_key %}" method="post">
         {% csrf_token %}
 
         <label for="question">Câu hỏi</label><br>

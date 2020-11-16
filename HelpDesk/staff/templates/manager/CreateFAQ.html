@@ -6,7 +6,7 @@
     <title>Create FAQ</title>
 </head>
 <body>
-    <form action="{% url 'Post_create_faq' %}" method="post">
+    <form action="{% url 'manager:Post_create_faq' %}" method="post">
         {% csrf_token %}
 
         <label for="question">Câu hỏi</label><br>

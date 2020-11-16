@@ -1,0 +1,35 @@
+body {
+  background-color: #fbfafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+}
+
+.login {
+  background-color: #ececec;
+  padding: 50px 91px;
+  border-radius: 10px;
+  box-shadow: 2px 3px 7px 3px #aaa;
+  width: 184px;
+}
+
+input[type=email], input[type=password] {
+  padding: 8px;
+  margin: 7px auto 24px auto;
+  border-radius: 6px;
+  border-width: 1px;
+  width: 165px;
+}
+
+#loginBtn {
+  padding: 10px 15px;
+  background-color: #43caea;
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 3px;
+}
+
+#loginBtn:hover {
+  background-color: #009bbf;
+}

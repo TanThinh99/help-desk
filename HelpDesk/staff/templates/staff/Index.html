@@ -6,14 +6,14 @@
     <title>Trang chủ</title>
     {% load static %}
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-    <script src="{% static 'js/firebase_config.js' %}"></script>
+    <script src="{% static 'layout/js/firebase_config.js' %}"></script>
 </head>
 <body>
     <h2>Đây là trang chủ</h2>
     <h4>Chào nhân viên {{ name }}</h4>
     <input type="hidden" name="user" id="user" value="{{ user }}">
-    <button><a href="{% url 'Get_create_problem' %}">Tạo báo cáo cho sự cố</a></button>
-    <button><a href="..{% url 'Logout' %}">Đăng xuất</a></button>
+    <button><a href="{% url 'staff:Get_create_problem' %}">Tạo báo cáo cho sự cố</a></button>
+    <button><a href="{% url 'manager:Logout' %}">Đăng xuất</a></button>
     
     <h3>Danh sách sự cố</h3>
     <div id="problems"></div>
@@ -21,6 +21,6 @@
     <h3>Danh sách FAQ</h3>
     <div id="faqs"></div>
 
-    <script src="{% static 'js/staff/Index.js' %}"></script>
+    <script src="{% static 'staff/js/Index.js' %}"></script>
 </body>
 </html>

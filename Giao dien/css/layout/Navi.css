@@ -1,0 +1,34 @@
+body {
+  padding: 10px 20px 30px 20px;
+}
+
+.logoTitle {
+  font-size: 26px;
+  color: #3c3c3c;
+  padding-top: 17px;
+  margin-top: 0px;
+}
+
+.logoTitle:hover {
+  cursor: pointer;
+}
+
+.navi {
+  display: flex;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  padding: 13px 0px;
+  margin-bottom: 35px;
+}
+
+.navi-item {
+  text-decoration: none;
+  margin-right: 33px;
+  font-size: 14px;
+  color: #6a6a6a;
+}
+
+.navi-item:hover {
+  cursor: hand;
+  color: black;
+}

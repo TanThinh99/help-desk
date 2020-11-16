@@ -6,9 +6,9 @@
     <title>Tạo tài khoản</title>
 </head>
 <body>
-    <button><a href="{% url 'Logout' %}">Đăng xuất</a></button><br><br>
+    <button><a href="{% url 'manager:Logout' %}">Đăng xuất</a></button><br><br>
 
-    <form action="{% url 'Post_create_account' %}" method="post">
+    <form action="{% url 'manager:Post_create_account' %}" method="post">
         {% csrf_token %}
 
         <label for="hoTen">Họ và tên</label>

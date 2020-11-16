@@ -10,7 +10,7 @@ data.on("value", function(snapshot) {
             str += "<th></th>";
         str += "</tr>";
         for(x in works) {
-            str += "<tr onclick='ChooseWork(\""+ x +"\")'>";
+            str += "<tr>";
                 str += "<td>"+ works[x].work_name +"</td>";
                 str += "<td>"+ works[x].deadline +"</td>";
                 str += "<td>"+ works[x].status +"</td>";

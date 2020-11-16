@@ -6,7 +6,7 @@
     <title>Phân công công việc</title>
 </head>
 <body>
-    <form action="{% url 'Post_create_work' %}" method="post">
+    <form action="{% url 'manager:Post_create_work' %}" method="post">
         {% csrf_token %}
 
         <label for="name">Tên công việc</label>

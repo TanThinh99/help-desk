@@ -6,10 +6,10 @@
     <title>Create problem</title>
     {% load static %}
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-    <script src="{% static 'js/firebase_config.js' %}"></script>
+    <script src="{% static 'layout/js/firebase_config.js' %}"></script>
 </head>
 <body>
-    <form action="{% url 'Post_create_problem' %}" method="post" id="createProblemForm">
+    <form action="{% url 'staff:Post_create_problem' %}" method="post" id="createProblemForm">
         {% csrf_token %}
 
         <label for="content">Tóm tắt vấn đề gặp phải</label><br>
@@ -23,6 +23,6 @@
         <input type="reset" value="Làm lại">
     </form>
 
-    <script src="{% static 'js/staff/CreateProblem.js' %}"></script>
+    <script src="{% static 'staff/js/CreateProblem.js' %}"></script>
 </body>
 </html>

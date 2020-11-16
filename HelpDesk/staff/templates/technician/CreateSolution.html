@@ -6,7 +6,7 @@
     <title>Báo cáo giải pháp</title>
 </head>
 <body>
-    <form action="{% url 'Post_create_solution' %}" method="post">
+    <form action="{% url 'technician:Post_create_solution' %}" method="post">
         {% csrf_token %}
 
         <label for="solution_content">Cách giải quyết công việc:</label><br>
