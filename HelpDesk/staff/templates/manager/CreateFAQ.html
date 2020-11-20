@@ -1,29 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create FAQ</title>
-</head>
-<body>
-    <form action="{% url 'manager:Post_create_faq' %}" method="post">
-        {% csrf_token %}
+{% extends 'manager/layout/Base.html' %}
 
-        <label for="question">Câu hỏi</label><br>
-        <textarea name="question" id="question" cols="30" rows="4"></textarea><br><br>
+{% block title %}Tạo FAQ{% endblock %}
 
-        <label for="answer">Câu trả lời</label><br>
-        <textarea name="answer" id="answer" cols="35" rows="10"></textarea><br><br>
-        
-        <input type="submit" value="Tạo FAQ" id="createFAQBtn">
-    </form>
-</body>
-<script>
-    document.getElementById("createFAQBtn").onclick = function() {
-        if(confirm("Bạn sẽ tạo câu hỏi thường gặp (FAQ) này?")) {
-            return true;
+{% load static %}
+
+{% block linkHead %}
+    <link rel="stylesheet" href="{% static 'manager/css/TaoFAQ.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="infoFrame">
+        <form action="{% url 'manager:Post_create_faq' %}" method="post">
+            {% csrf_token %}
+            
+            <label for="question">Câu hỏi</label><br>
+            <textarea name="question" id="question" cols="40" rows="3"></textarea><br><br>
+
+            <label for="answer">Câu trả lời</label><br>
+            <textarea name="answer" id="answer" cols="40" rows="6"></textarea><br><br>
+            
+            <input type="submit" value="Tạo FAQ" id="submitBtn">
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.getElementById("submitBtn").onclick = function() {
+            if(confirm("Bạn sẽ tạo câu hỏi thường gặp (FAQ) này?")) {
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
-</script>
-</html>
+    </script>
+{% endblock %}

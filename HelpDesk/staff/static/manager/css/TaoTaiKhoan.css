@@ -1,0 +1,49 @@
+.infoFrame {
+  width: 350px;
+  background-color: #f4f4f4;
+  border: 5px solid #cecece;
+  border-radius: 5px;
+  padding: 11px 20px;
+  margin: 30px auto -10px auto;
+}
+
+.infoFrame form {
+  margin: 10px 83px;
+}
+
+.infoFrame form label {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0px auto -6px auto;
+  display: block;
+}
+
+.infoFrame form input {
+  font-size: 18px;
+  margin: -8px auto 31px auto;
+  padding: 5px 8px;
+}
+
+.infoFrame form input[type=radio] {
+  margin: 7px auto 10px auto;
+}
+
+.infoFrame form .labelOfRadio {
+  font-size: 16px;
+  font-weight: normal;
+  display: inline;
+}
+
+#createAccountBtn {
+  background-color: #98e6ff;
+  padding: 11px 16px;
+  border-width: 0px;
+  border-radius: 4px;
+  display: block;
+  margin: 25px auto 6px auto;
+  transition: 0.4s;
+}
+
+#createAccountBtn:hover {
+  box-shadow: 2px 2px 3px 2px #00abff;
+}

@@ -87,7 +87,14 @@ data_problems.on("value", function(snapshot) {
                             str += "<div class='dropdown-content'>";
                                 str += "<a onclick='ProblemDetail(\""+ x +"\")' class='content-item'>Chi tiết</a>";
                                 str += "<a onclick='CreateWork(\""+ x +"\")' class='content-item'>Tạo công việc</a>";
-                                str += "<a onclick='PassProblem(\""+ x +"\")' class='content-item'>Duyệt</a>";
+                                if(info[x].status == "2")
+                                {
+                                    str += "<a onclick='PassProblem(\""+ x +"\")' class='content-item'>Duyệt</a>";
+                                }
+                                else
+                                {
+                                    str += "<a onclick='PassProblem(\""+ x +"\")' class='content-item disabled-link'>Duyệt</a>";
+                                }
                                 str += "<a onclick='WorkList(\""+ x +"\", false)' class='content-item'>Xem công việc</a>";
                             str += "</div>";
                         str += "</div>";

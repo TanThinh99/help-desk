@@ -29,6 +29,11 @@ body {
   color: #6a6a6a;
 }
 
+.disabled-link {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 .navi-item:hover {
   cursor: hand;
   color: black;

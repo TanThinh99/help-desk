@@ -17,11 +17,12 @@
         {% elif position_currently == "technician" %}
             <a href="{% url 'technician:Get_index' %}" class="logoTitle">Helpdesk</a>
         {% endif %}
-        <!-- Helpdesk</a> -->
     </h3>
     <div class="navi">
-        <a href="{% url 'manager:Get_create_account' %}" class="navi-item">TẠO TÀI KHOẢN</a>
-        <a href="{% url 'manager:Get_create_faq' %}" class="navi-item">TẠO FAQ</a>
+        {% if position_currently == "manager" %}
+            <a href="{% url 'manager:Get_create_account' %}" class="navi-item">TẠO TÀI KHOẢN</a>
+            <a href="{% url 'manager:Get_create_faq' %}" class="navi-item">TẠO FAQ</a>
+        {% endif %}
         <a href="{% url 'manager:Logout' %}" class="navi-item">ĐĂNG XUẤT</a>
     </div>
 

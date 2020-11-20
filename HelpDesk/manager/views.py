@@ -27,7 +27,7 @@ def GetIndex(request):
     uid = user[0].get("localId")
     infoUser = database.child("users").child(uid).get().val()
     name = infoUser.get("name")
-    position_currently = infoUser.get("position")
+    position_currently = request.session["position_currently"]
     try:
         thongBao = request.session["thongBao"]
         del request.session["thongBao"]
@@ -64,6 +64,8 @@ def PostSignIn(request):
     # Get User information
     uid = user.get("localId")
     position = database.child("users").child(uid).child("position").get().val()
+    request.session["position_currently"] = position
+
     if position == "staff":
         return redirect("staff/Index")
     elif position == "manager":
@@ -76,6 +78,7 @@ def Logout(request):
     try:
         token = request.session['token']
         del request.session['token']
+        del request.session['position_currently']
     except KeyError:
         string = "Bạn đã đăng xuất. Vui lòng đăng nhập lại !!"
         return redirect("../")
@@ -83,7 +86,24 @@ def Logout(request):
 
 
 def GetCreateAccount(request):
-    return render(request, "manager/CreateAccount.html")
+
+    try:
+        position = request.session["position_currently"]
+    except KeyError:
+        return redirect("/")
+
+    try:
+        report = request.session["report"]
+        del request.session["report"]
+        data = {
+            "position_currently": position,
+            "report": report
+        }
+    except KeyError:
+        data = {
+            "position_currently": position,
+        }
+    return render(request, "manager/CreateAccount.html", data)
 
 
 def PostCreateAccount(request):
@@ -92,7 +112,8 @@ def PostCreateAccount(request):
     try:
         user = fire_auth.create_user_with_email_and_password(email, passw)
     except:
-        return render(request, "manager/Index.html", {"report": "Tạo tài khoản thất bại"})
+        request.session["report"] = "Tạo tài khoản thất bại"
+        return redirect("../CreateAccount")
     
     name = request.POST.get("hoTen")
     position = request.POST.get("role")
@@ -108,7 +129,11 @@ def PostCreateAccount(request):
 
 
 def GetCreateFAQ(request):
-    return render(request, "manager/CreateFAQ.html")
+    try:
+        position = request.session["position_currently"]
+    except KeyError:
+        return redirect("/")
+    return render(request, "manager/CreateFAQ.html", {"position_currently": position})
 
 
 def PostCreateFAQ(request):
@@ -124,8 +149,18 @@ def PostCreateFAQ(request):
 
 
 def GetUpdateFAQ(request, faq_key):
+    try:
+        position = request.session["position_currently"]
+    except KeyError:
+        return redirect("/")
+
     faq = database.child("faqs").child(faq_key).get().val()
-    return render(request, "manager/UpdateFAQ.html", {"faq_key": faq_key, "faq": faq})
+    data = {
+        "position_currently": position, 
+        "faq_key": faq_key, 
+        "faq": faq
+    }
+    return render(request, "manager/UpdateFAQ.html", data)
 
 
 def PostUpdateFAQ(request, faq_key):
@@ -152,6 +187,11 @@ def DeleteFAQ(request):
 
 
 def GetCreateWork(request, problem_key): 
+    try:
+        position = request.session["position_currently"]
+    except KeyError:
+        return redirect("/")
+
     user_zip = ""   
     users = database.child("users").order_by_child("position").equal_to("technician").get().val()
     if users is not None:
@@ -171,7 +211,13 @@ def GetCreateWork(request, problem_key):
             keyList.append(key)
             questionList.append(faqs[key].get("question"))
         faq_zip = zip(keyList, questionList)
-    return render(request, "manager/CreateWork.html", {"problem_key": problem_key, "user_zip": user_zip, "faq_zip": faq_zip})
+    data = {
+        "position_currently": position,
+        "problem_key": problem_key, 
+        "user_zip": user_zip, 
+        "faq_zip": faq_zip
+    }
+    return render(request, "manager/CreateWork.html", data)
 
 
 def PostCreateWork(request):
@@ -202,6 +248,11 @@ def PostCreateWork(request):
 
 
 def GetUpdateWork(request, work_key):
+    try:
+        position = request.session["position_currently"]
+    except KeyError:
+        return redirect("/")
+
     work = database.child("works").child(work_key).get().val()
     work_name = work.get("work_name")
     deadline = work.get("deadline")
@@ -226,6 +277,7 @@ def GetUpdateWork(request, work_key):
             questionList.append(faqs[key].get("question"))
         faq_zip = zip(keyList, questionList)
     data = {
+        "position_currently": position,
         "work_key": work_key,
         "work_name": work_name,
         "deadline": deadline,
@@ -306,7 +358,7 @@ def GetProblemDetail(request, problem_key):
     users = account["users"]
     user1 = users[0]
     uid = user1["localId"]
-    position_currently = database.child("users").child(uid).child("position").get().val()
+    position_currently = request.session["position_currently"]
 
     data = {
         "problem_key": problem_key, 

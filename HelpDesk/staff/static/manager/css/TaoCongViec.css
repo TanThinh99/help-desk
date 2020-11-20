@@ -1,0 +1,45 @@
+.infoFrame {
+    width: 35%;
+    background-color: #f4f4f4;
+    border: 5px solid #cecece;
+    border-radius: 5px;
+    padding: 4px 20px;
+    margin: 37px auto 0px auto;
+}
+  
+.infoFrame form {
+    margin: 10px 51px;
+}
+
+.infoFrame form label {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 0px auto -6px auto;
+    display: block;
+}
+
+.infoFrame form select, input[type=text], input[type=datetime-local] {
+    margin: -5px auto 29px auto;
+    font-size: 16px;
+    width: 100%;
+    padding: 5px 8px;
+}
+
+.infoFrame form select, input[type=datetime-local] {
+    width: 60%;
+}
+
+#submitBtn {
+    background-color: #98e6ff;
+    padding: 9px 23px;
+    border-width: 0px;
+    border-radius: 4px;
+    display: block;
+    margin: 0px auto 6px auto;
+    transition: 0.4s;
+    font-size: 17px;
+}
+
+#submitBtn:hover {
+    box-shadow: 2px 2px 3px 2px #00abff;
+}

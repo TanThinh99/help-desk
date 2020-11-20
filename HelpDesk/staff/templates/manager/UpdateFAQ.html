@@ -1,21 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update FAQ</title>
-</head>
-<body>
-    <form action="{% url 'manager:Post_update_FAQ' faq_key %}" method="post">
-        {% csrf_token %}
+{% extends 'manager/layout/Base.html' %}
 
-        <label for="question">Câu hỏi</label><br>
-        <textarea name="question" id="question" cols="30" rows="4">{{ faq.question }}</textarea><br><br>
+{% block title %}Cập nhật FAQ{% endblock %}
 
-        <label for="answer">Câu trả lời</label><br>
-        <textarea name="answer" id="answer" cols="35" rows="10">{{ faq.answer }}</textarea><br><br>
-        
-        <input type="submit" value="Cập nhật">
-    </form>
-</body>
-</html>
+{% load static %}
+
+{% block linkHead %}
+    <link rel="stylesheet" href="{% static 'manager/css/TaoFAQ.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="infoFrame">
+        <form action="{% url 'manager:Post_update_FAQ' faq_key %}" method="post">
+            {% csrf_token %}
+            
+            <label for="question">Câu hỏi</label><br>
+            <textarea name="question" id="question" cols="40" rows="3">{{ faq.question }}</textarea><br><br>
+
+            <label for="answer">Câu trả lời</label><br>
+            <textarea name="answer" id="answer" cols="40" rows="6">{{ faq.answer }}</textarea><br><br>
+            
+            <input type="submit" value="Cập nhật" id="submitBtn">
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}{% endblock %}

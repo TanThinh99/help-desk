@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân công công việc</title>
+    <link rel="stylesheet" href="css/layout/Navi.css">
+    <link rel="stylesheet" href="css/manager/TaoCongViec.css">
+</head>
+<body>
+    <h3 class="logoTitle">Helpdesk</h3>
+    <div class="navi">
+        <a href="#" class="navi-item">TẠO TÀI KHOẢN</a>
+        <a href="#" class="navi-item">TẠO FAQ</a>
+        <a href="#" class="navi-item">ĐĂNG XUẤT</a>
+    </div>
+    <div class="infoFrame">
+        <form action="" method="post">
+            <label for="name">Tên công việc</label><br>
+            <input type="text" name="name" id="name" required><br>
+    
+            <label for="user">Kỹ thuật viên giải quyết</label><br>
+            <select name="user" id="user">
+                <!-- {% for key, name in user_zip %} -->
+                <option value="1">Le Lai</option>    
+                    <!-- <option value="{{ key }}">{{ name }}</option> -->
+                <!-- {% endfor %} -->
+            </select><br>
+    
+            <label for="deadline">Hạn chót hoàn thành</label><br>
+            <input type="datetime-local" name="deadline" id="deadline" required><br>
+    
+            <label for="faq">Chọn gợi ý cho kỹ thuật viên</label><br>
+            <select name="faq" id="faq">
+                <option value="">Chọn FAQ</option>
+                <!-- {% for key, question in faq_zip %}
+                    <option value="{{ key }}">{{ question }}</option>
+                {% endfor %} -->
+            </select><br>
+            <!-- <input type="hidden" name="problem" value="{{ problem_key }}"> -->
+    
+            <input type="submit" value="Tạo công việc" id="submitBtn">
+        </form>
+    </div>    
+</body>
+<script>
+    document.getElementById("submitBtn").onclick = function() {
+        if (confirm("Bạn sẽ tạo công việc này?")) {
+            return true;
+        }
+        return false;
+    }
+</script>
+</html>

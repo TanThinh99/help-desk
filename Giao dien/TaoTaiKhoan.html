@@ -1,18 +1,21 @@
-{% extends 'manager/layout/Base.html' %}
-
-{% block title %}Tạo tài khoản{% endblock %}
-
-{% load static %}
-
-{% block linkHead %}
-    <link rel="stylesheet" href="{% static 'manager/css/TaoTaiKhoan.css' %}">
-{% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo tài khoản</title>
+    <link rel="stylesheet" href="css/layout/Navi.css">
+    <link rel="stylesheet" href="css/manager/TaoTaiKhoan.css">
+</head>
+<body>
+    <h3 class="logoTitle">Helpdesk</h3>
+    <div class="navi">
+        <a href="#" class="navi-item">TẠO TÀI KHOẢN</a>
+        <a href="#" class="navi-item">TẠO FAQ</a>
+        <a href="#" class="navi-item">ĐĂNG XUẤT</a>
+    </div>
     <div class="infoFrame">
-        <form action="{% url 'manager:Post_create_account' %}" method="post">
-            {% csrf_token %}
-            
+        <form action="" method="post">
             <label for="hoTen">Họ và tên</label><br>
             <input type="text" name="hoTen" id="hoTen" required><br>
 
@@ -37,28 +40,20 @@
 
             <input type="submit" value="Tạo tài khoản" id="createAccountBtn" onclick="return TestPassword()">
         </form>
-    </div>
-
-    {% if report %}
-        <script>
-            alert("{{ report }}")
-        </script>
-    {% endif %}
-{% endblock %}
-
-{% block script %}
-    <script>
-        function TestPassword() {
-            pass1 = document.getElementById("password").value;
-            pass2 = document.getElementById("password2").value;
-            if (pass1 != pass2) {
-                alert("Mật khẩu nhập lại phải giống với mật khẩu ở trên");
-                return false;
-            }
-            if(confirm("Bạn sẽ tạo tài khoản này?")) {
-                return true;
-            }
-            return false;        
+    </div>    
+</body>
+<script>
+    function TestPassword() {
+        pass1 = document.getElementById("password").value;
+        pass2 = document.getElementById("password2").value;
+        if (pass1 != pass2) {
+            alert("Mật khẩu nhập lại phải giống với mật khẩu ở trên");
+            return false;
         }
-    </script>
-{% endblock %}
+        if(confirm("Bạn sẽ tạo tài khoản này?")) {
+            return true;
+        }
+        return false;        
+    }
+</script>
+</html>
