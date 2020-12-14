@@ -29,6 +29,11 @@
     width: 60%;
 }
 
+.infoFrame form select:focus, input:focus {
+    background-color: #e3e3e3;
+    border: 2px solid black;
+}
+
 #submitBtn {
     background-color: #98e6ff;
     padding: 9px 23px;

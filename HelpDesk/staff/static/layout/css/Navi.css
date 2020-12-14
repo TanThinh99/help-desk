@@ -1,16 +1,29 @@
 body {
-  padding: 10px 20px 30px 20px;
+  padding: 10px 20px 20px 20px;
 }
 
 .logoTitle {
-  font-size: 26px;
+  font-size: 28px;
+  font-weight: bold;
   color: #3c3c3c;
-  padding-top: 17px;
-  margin-top: 0px;
+  padding-top: 6px;
+  margin: 0px auto 10px auto;
   text-decoration: none;
 }
 
 .logoTitle:hover {
+  cursor: pointer;
+}
+
+.sectionTitle {
+  font-size: 22px;
+  color: #17c1f9;
+  text-align: right;
+  margin: 10px;
+}
+
+.sectionTitle img {
+  height: 22px;
   cursor: pointer;
 }
 

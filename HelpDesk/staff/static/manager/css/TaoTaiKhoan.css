@@ -24,6 +24,11 @@
   padding: 5px 8px;
 }
 
+.infoFrame form input:focus {
+  background-color: #e3e3e3;
+  border: 2px solid black;
+}
+
 .infoFrame form input[type=radio] {
   margin: 7px auto 10px auto;
 }

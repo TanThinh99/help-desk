@@ -9,13 +9,20 @@
     {% block linkHead %}{% endblock %}
 </head>
 <body>
-    <h3>
+    <div>
         {% if position_currently == "staff" %}
             <a href="{% url 'staff:Get_index' %}" class="logoTitle">Helpdesk</a>
         {% elif position_currently == "manager" %}
             <a href="{% url 'manager:Get_index' %}" class="logoTitle">Helpdesk</a>
         {% elif position_currently == "technician" %}
             <a href="{% url 'technician:Get_index' %}" class="logoTitle">Helpdesk</a>
+        {% endif %}
+    </div>
+    <h3 class="sectionTitle">
+        <img src="./image/vietnamFlag.png" alt="" onclick="alert('hello')">&nbsp;
+        <img src="./image/englishFlag.png" alt="" onclick="alert('hello')">&nbsp;
+        {% if position_currently == "manager" %}
+            <span id="hiUser">Chào quản lý Phan Hải Ly</span>
         {% endif %}
     </h3>
     <div class="navi">

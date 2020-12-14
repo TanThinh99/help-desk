@@ -20,12 +20,12 @@
     top: 31px;
     right: 79px;
     color: white;
-    font-weight: bold;
-    font-size: 35px;
+    font-size: 46px;
     text-shadow: 0px 1px 9px white;
   }
   
   .closeImageBtn:hover {
     text-shadow: 5px 2px 8px white;
     cursor: pointer;
+    font-weight: bold;
   }

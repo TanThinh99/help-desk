@@ -1,0 +1,224 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+    
+    /* MENU LEFT */
+.menuLeft {
+    flex: 18%;
+    float: left;
+    height: 416px;
+}
+
+.menuLeft .menuItem {
+    display: block;
+    text-decoration: none;
+    padding: 18px 10px;
+    width: 84%;
+}  
+    
+.menuLeft .menuItem:hover {
+    background-color: #e8e8e8;
+}
+
+.menuLeft .menuItemActive {
+    color: red;
+    font-weight: bold;
+    background-color: #ddd;
+}
+
+    /* MAIN CONTENT RIGHT */
+.mainContent {
+    flex: 82%;
+    height: 400px;
+}
+
+.tabContent {
+    display: none;
+}
+ 
+.problemTable {
+    height: 414px;
+    width: 100%;
+    overflow-y: scroll;
+    border: 1px solid gray;
+}
+  
+.problemTable table {
+    border-collapse: collapse;
+    border-color: gray;
+}
+
+.problemTable th, td {
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+.problemTable tr:hover {
+    background-color: #e8e8e8;
+}
+  
+.titleTable {
+    background: #61f4fb;
+    font-size: 18px;
+}
+
+.problemTable table .content {
+    padding: 3px 8px;
+    font-size: 16px;
+    width: auto;
+    height: 59px;
+    display: block;
+    overflow-y: scroll;
+    border-top-width: 0px;
+}
+
+.problemTable .status {
+    padding: 4px 8px;
+    text-align: center;
+}
+
+.problemTable table img:hover {
+    cursor: pointer;
+}
+
+.problemTable table th {
+    padding: 9px 11px;
+}
+
+.problemImage {
+    height: 60px;
+    max-width: 95px;
+}
+
+.function img {
+    width: 29px;
+    display: inline-block;
+    margin-left: 23%;
+    position: relative;
+}
+
+.function:hover .tip {
+    display: block;
+}
+
+.tip {
+    display: none;
+    position: absolute;
+    padding: 4px 6px;
+    background-color: black;
+    opacity: 0.7;
+    color: white;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.disabled-link {
+    opacity: 0.7;
+    pointer-events: none;
+    background-color: #e6e4e4;
+}
+
+.workTable {
+    width: 90%;
+    height: 90%;
+    border: 1px solid #000;
+    display: none;
+    margin: auto auto 19px auto;
+}
+
+.workTable table {
+    border-collapse: collapse;
+    border-color: #eee;
+}
+
+.workTable table th {
+    padding: 9px 3px;
+}
+
+.workTable .content {
+    height: 45px;
+    display: block;
+    overflow-y: scroll;
+    padding: 2px 3px;
+    border-width: 0px 0px 1px 0px;
+}
+
+.workTable .userFix {
+    padding: 1px 3px;
+    text-align: center;
+}
+
+.workTable .deadline {
+    padding: 1px 3px;
+    text-align: center;
+}
+
+.workTable .status {
+    padding: 2px 3px;
+    text-align: center;
+}
+
+#faqTable {
+    overflow-y: scroll;
+    height: 414px;
+}
+
+#faqTable table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#faqTable th {
+    padding: 10px;
+    font-size: 17px;
+    background-color: #61f4fb; 
+}
+
+#faqTable tr:nth-child(odd) {
+    background-color: #d7d7d7;
+}
+
+#faqTable tr:nth-child(even) {
+    background-color: #fbfbfb;
+}
+
+#faqTable tr:hover {
+    background-color: #89ff89;
+}
+
+#faqTable td {
+    padding: 13px 10px;
+}
+
+    /* MODAL */
+#modalFrame {
+    height: 65%;
+    width: 75%;
+    background-color: #f2f2f2;
+    position: fixed;
+    top: 10%;
+    left: 12%;
+    animation: fadeModal 0.3s;
+    display: none;
+    padding: 60px 0px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px 3px #606060;
+}
+
+@keyframes fadeModal {
+    from{top: 6%; opacity: 0.5;}
+    to {top:10%; opacity: 1}
+}
+
+#modalClose {
+    font-size: 44px;
+    position: absolute;
+    top: 1%;
+    right: 2%;
+}
+
+#modalClose:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
