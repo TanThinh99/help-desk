@@ -34,12 +34,12 @@ def GetIndex(request):
         data = {
             "thongBao": thongBao,
             "name": name,
-            "position_currently": position_currently
+            "position_currently": request.session["position_currently"]
         }
     except KeyError:
         data = {
             "name": name,
-            "position_currently": position_currently    
+            "position_currently": request.session["position_currently"]   
         }
     return render(request, "manager/Index.html", data)
 
@@ -63,8 +63,10 @@ def PostSignIn(request):
     
     # Get User information
     uid = user.get("localId")
-    position = database.child("users").child(uid).child("position").get().val()
+    user = database.child("users").child(uid).get().val()
+    position = user.get("position")
     request.session["position_currently"] = position
+    request.session["name"] = user.get("name")
 
     if position == "staff":
         return redirect("staff/Index")
@@ -97,11 +99,13 @@ def GetCreateAccount(request):
         del request.session["report"]
         data = {
             "position_currently": position,
+            "name": request.session["name"],
             "report": report
         }
     except KeyError:
         data = {
-            "position_currently": position,
+            "name": request.session["name"],
+            "position_currently": position
         }
     return render(request, "manager/CreateAccount.html", data)
 
@@ -133,7 +137,11 @@ def GetCreateFAQ(request):
         position = request.session["position_currently"]
     except KeyError:
         return redirect("/")
-    return render(request, "manager/CreateFAQ.html", {"position_currently": position})
+    data = {
+        "position_currently": position,
+        "name": request.session["name"]
+    }
+    return render(request, "manager/CreateFAQ.html", data)
 
 
 def PostCreateFAQ(request):
@@ -156,7 +164,8 @@ def GetUpdateFAQ(request, faq_key):
 
     faq = database.child("faqs").child(faq_key).get().val()
     data = {
-        "position_currently": position, 
+        "position_currently": position,
+        "name": request.session["name"],
         "faq_key": faq_key, 
         "faq": faq
     }
@@ -213,6 +222,7 @@ def GetCreateWork(request, problem_key):
         faq_zip = zip(keyList, questionList)
     data = {
         "position_currently": position,
+        "name": request.session["name"],
         "problem_key": problem_key, 
         "user_zip": user_zip, 
         "faq_zip": faq_zip
@@ -278,6 +288,7 @@ def GetUpdateWork(request, work_key):
         faq_zip = zip(keyList, questionList)
     data = {
         "position_currently": position,
+        "name": request.session["name"],
         "work_key": work_key,
         "work_name": work_name,
         "deadline": deadline,
@@ -364,7 +375,8 @@ def GetProblemDetail(request, problem_key):
         "problem_key": problem_key, 
         "problem": problem, 
         "user": user,
-        "position_currently": position_currently
+        "position_currently": position_currently,
+        "name": request.session["name"]
     }
     return render(request, "manager/ProblemDetail.html", data)
 

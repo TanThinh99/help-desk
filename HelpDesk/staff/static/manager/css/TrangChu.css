@@ -38,7 +38,7 @@
 }
 
 .problemTable {
-  height: 414px;
+  height: 409px;
   width: 100%;
   overflow-y: scroll;
   border: 1px solid gray;
@@ -91,11 +91,15 @@
   max-width: 95px;
 }
 
+.function {
+  position: relative;
+}
+
 .function img {
   width: 29px;
   display: inline-block;
   margin-left: 23%;
-  position: relative;
+  cursor: pointer;
 }
 
 .function:hover .tip {
@@ -111,10 +115,15 @@
   color: white;
   border-radius: 3px;
   font-size: 14px;
+  width: max-content;
+}
+
+.lastTip {
+  left: -37px;
 }
 
 .disabled-link {
-  opacity: 0.7;
+  opacity: 25%;
   pointer-events: none;
   background-color: #e6e4e4;
 }
@@ -133,14 +142,23 @@
 }
 
 .workTable table th {
-  padding: 9px 3px;
+  padding: 13px 3px;
+  border-width: 1px 0px;
+}
+
+.workTable table td {
+  border-bottom: 1px solid #bfbfbf;
+}
+
+.workTable table tr:hover {
+  background-color: #ddd;
 }
 
 .workTable .content {
   height: 45px;
   display: block;
   overflow-y: scroll;
-  padding: 2px 3px;
+  padding: 6px 3px;
   border-width: 0px 0px 1px 0px;
 }
 
@@ -172,7 +190,8 @@
 #faqTable th {
   padding: 10px;
   font-size: 17px;
-  background-color: #61f4fb; 
+  background-color: #61f4fb;
+  border-width: 1px 0px;
 }
 
 #faqTable tr:nth-child(odd) {
@@ -184,7 +203,7 @@
 }
 
 #faqTable tr:hover {
-  background-color: #89ff89;
+  background-color: #f7f9eb;
 }
 
 #faqTable td {

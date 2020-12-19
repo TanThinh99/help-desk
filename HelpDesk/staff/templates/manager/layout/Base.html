@@ -19,10 +19,10 @@
         {% endif %}
     </div>
     <h3 class="sectionTitle">
-        <img src="./image/vietnamFlag.png" alt="" onclick="alert('hello')">&nbsp;
-        <img src="./image/englishFlag.png" alt="" onclick="alert('hello')">&nbsp;
+        <!-- <img src="{% static './image/vietnamFlag.png' %}" alt="" onclick="alert('xin chao')">&nbsp;
+        <img src="{% static './image/englishFlag.png' %}" alt="" onclick="alert('hello')">&nbsp; -->
         {% if position_currently == "manager" %}
-            <span id="hiUser">Chào quản lý Phan Hải Ly</span>
+            <span id="hiUser">Chào quản lý {{ name }}</span>
         {% endif %}
     </h3>
     <div class="navi">

@@ -7,36 +7,11 @@ data_problems_done.on("value", function(snapshot) {
     info = snapshot.val();
     var str = '<table border="1" width="100%">\
                 <tr>\
-                    <th class="titleTable" colspan="4">\
-                        Danh sách sự cố đã được giải quyết\
-                    </th>\
-                </tr>\
-                <tr>\
                     <th width="70%">Nội dung</th>\
                     <th width="15%">Hình ảnh</th>\
                     <th width="15%" colspan="2">Thao tác</th>\
                 </tr>';
         for (x in info) {
-            // str += "<tr>";
-            //     str += "<td class='content'>"+ info[x].content +"</td>";
-            //     if(info[x].image_url != "")
-            //     {
-            //         str += "<td><img src='"+ info[x].image_url +"' alt='Hình sự cố' onclick='ZoomImage(\""+ info[x].image_url +"\")'></td>";
-            //     }
-            //     else
-            //     {
-            //         str += "<td></td>";
-            //     }
-
-            //     str += "<td class='functions'>";
-            //         str += "<div class='dropdown'><div class='dropdownBtn'>Các thao tác</div>";
-            //             str += "<div class='dropdown-content'>";
-            //                 str += "<a onclick='ProblemDetail(\""+ x +"\")' class='content-item'>Chi tiết</a>";
-            //                 str += "<a onclick='WorkList(\""+ x +"\", true)' class='content-item'>Xem công việc</a>";
-            //             str += "</div>";
-            //         str += "</div>";
-            //     str += "</td>";
-            // str += "</tr>";
             str += '<tr>\
                         <td class="content">\
                             '+ info[x].content +'\
@@ -49,9 +24,6 @@ data_problems_done.on("value", function(snapshot) {
                         {
                             str += "<td></td>";
                         }
-                        // <td>\
-                        //     <img src="'+ info[x].image_url +'" alt="Hình sự cố" class="problemImage" onclick="ZoomImage(\''+ info[x].image_url +'\')">\
-                        // </td>\
                         str += '<td>\
                             <div class="function">\
                             <a onclick="ProblemDetail(\''+ x +'\')"><img src="./../static/image/XemChiTiet.jpg" alt=""></a>\
@@ -61,7 +33,7 @@ data_problems_done.on("value", function(snapshot) {
                         <td>\
                             <div class="function">\
                             <a onclick="WorkList(\''+ x +'\', true)"><img src="./../static/image/XemCongViec.png" alt=""></a>\
-                                <span class="tip">Xem công việc</span>\
+                                <span class="tip lastTip">Xem công việc</span>\
                             </div>\
                         </td>\
                     </tr>';
@@ -73,24 +45,7 @@ data_problems_done.on("value", function(snapshot) {
 var data_problems = firebase.database().ref("problems");
 data_problems.on("value", function(snapshot) {
     info = snapshot.val();
-    // var str = "<table border='1'>";
-    //     str += "<tr>";
-    //         str += "<th class='titleTable' colspan='4'>";
-    //             str += "Danh sách sự cố chưa giải quyết";
-    //         str += "</th>";
-    //     str += "</tr>";
-    //     str += "<tr>";
-    //         str += "<th>Nội dung</th>";
-    //         str += "<th>Hình ảnh</th>";
-    //         str += "<th>Trạng thái</th>";
-    //         str += "<th>Thao tác</th>";
-    //     str += "</tr>";
     var str = '<table border="1" width="100%">\
-                <tr>\
-                    <th class="titleTable" colspan="7">\
-                        Danh sách sự cố chưa giải quyết\
-                    </th>\
-                </tr>\
                 <tr>\
                     <th width="50%">Nội dung</th>\
                     <th width="10%">Hình ảnh</th>\
@@ -121,28 +76,9 @@ data_problems.on("value", function(snapshot) {
                     {
                         str += "<td class='status'>Chờ duyệt</td>";
                     }
-                    
-                    // str += "<td class='functions'>";
-                    //     str += "<div class='dropdown'><div class='dropdownBtn'>Các thao tác</div>";
-                    //         str += "<div class='dropdown-content'>";
-                    //             str += "<a onclick='ProblemDetail(\""+ x +"\")' class='content-item'>Chi tiết</a>";
-                    //             str += "<a onclick='CreateWork(\""+ x +"\")' class='content-item'>Tạo công việc</a>";
-                    //             if(info[x].status == "2")
-                    //             {
-                    //                 str += "<a onclick='PassProblem(\""+ x +"\")' class='content-item'>Duyệt</a>";
-                    //             }
-                    //             else
-                    //             {
-                    //                 str += "<a onclick='PassProblem(\""+ x +"\")' class='content-item disabled-link'>Duyệt</a>";
-                    //             }
-                    //             str += "<a onclick='WorkList(\""+ x +"\", false)' class='content-item'>Xem công việc</a>";
-                    //         str += "</div>";
-                    //     str += "</div>";
-                    // str += "</td>";
-                // str += "</tr>";
                     str += '<td>\
                         <div class="function">\
-                            <a onclick="ProblemDetail(\''+ x +'\')"><img src="./image/XemChiTiet.jpg" alt=""></a>\
+                            <a onclick="ProblemDetail(\''+ x +'\')"><img src="./../static/image/XemChiTiet.jpg" alt=""></a>\
                             <span class="tip">Xem chi tiết</span>\
                         </div>\
                     </td>';
@@ -173,7 +109,7 @@ data_problems.on("value", function(snapshot) {
                     <td>\
                         <div class="function">\
                             <a onclick="WorkList(\''+ x +'\', false)"><img src="./../static/image/XemCongViec.png" alt=""></a>\
-                            <span class="tip">Xem công việc</span>\
+                            <span class="tip lastTip">Xem công việc</span>\
                         </div>\
                     </td>\
                 </tr>';
@@ -183,28 +119,35 @@ data_problems.on("value", function(snapshot) {
     document.getElementById("problemNotDoneTable").innerHTML = str;
 });
 
-// var data_faq = firebase.database().ref("faqs");
-// data_faq.on("value", function(snapshot) {
-//     faqs = snapshot.val();
-//     str = "<tr>";
-//         str += "<th class='widthQuestion'>Câu hỏi</th>";
-//         str += "<th class='widthAnswer'>Trả lời</th>";
-//         str += "<th class='widthFunction'>Thao tác</th>";
-//     str += "</tr>";
-//     for (x in faqs) {
-//         str += "<tr>";
-//             str += "<td class='question'>"+ faqs[x].question +"</td>";
-//             str += "<td class='answer'>"+ faqs[x].answer +"</td>";
-//             str += "<td class='functions'>";
-//                 str += "<a onclick='UpdateFAQ(\""+ x +"\")' class='function-item'>Cập nhật</a>";
-//                 str += "<a onclick='DeleteFAQ(\""+ x +"\")' class='function-item'>Xóa</a>";
-//             str += "</td>";
-//             // str += "<td><button onclick='UpdateFAQ(\""+ x +"\")'>Cập nhật</button></td>";
-//             // str += "<td><button onclick='DeleteFAQ(\""+ x +"\")'>Xóa</button></td>";
-//         str += "</tr>";
-//     }
-//     document.getElementById("faqTable").innerHTML = str;
-// });
+var data_faq = firebase.database().ref("faqs");
+data_faq.on("value", function(snapshot) {
+    faqs = snapshot.val();
+    var str = '<table border="1" width="100%">\
+                <tr>\
+                    <th width="30%">Câu hỏi</th>\
+                    <th width="45%">Trả lời</th>\
+                    <th width="25%" colspan="2">Thao tác</th>\
+                </tr>';
+    for (x in faqs) {
+        str += '<tr>\
+                    <td class="question">'+ faqs[x].question +'</td>\
+                    <td class="answer">'+ faqs[x].answer +'</td>\
+                    <td>\
+                        <div class="function">\
+                            <a onclick="UpdateFAQ(\''+ x +'\')"><img src="./../static/image/update.png" alt=""></a>\
+                            <span class="tip">Cập nhật</span>\
+                        </div>\
+                    </td>\
+                    <td>\
+                        <div class="function">\
+                            <a onclick="DeleteFAQ(\''+ x +'\')"><img src="./../static/image/delete.png" alt=""></a>\
+                            <span class="tip">Xóa</span>\
+                        </div>\
+                    </td>\
+                </tr>';
+    }
+    document.getElementById("faqTable").innerHTML = str;
+});
 
     // Get user_name for work follow problems
 dsUser = []
@@ -235,14 +178,6 @@ function WorkList(problem_key, isProblemDone) {
                     </th>\
                 </tr>\
                 <tr>';
-                // str += "<th>Tên công việc</th>";
-                // str += "<th>Người giải quyết</th>";
-                // str += "<th>Hạn chót</th>";
-                // if( !isProblemDone )
-                // {
-                //     str += "<th>Trạng thái</th>";
-                //     str += "<th>Thao tác</th>";
-                // }
                 if( isProblemDone )
                 {
                     str += '<th width="50%">Tên công việc</th>\
@@ -282,33 +217,7 @@ function WorkList(problem_key, isProblemDone) {
                         {
                             status = "Đã hoàn thành";
                         }
-                        str += "<td class='status'>"+ status +"</td>";
-                        // str += "<td class='functions'>";
-                        //     str += "<div class='dropdown'><div class='dropdownBtn'>Các thao tác</div>";
-                        //         str += "<div class='dropdown-content'>";
-                        //         if(works[x].status == "0")
-                        //         {
-                        //             str += "<a onclick='UpdateWork(\""+ x +"\")' class='content-item'>Cập nhật</a>";
-                        //             str += "<a onclick='DeleteWork(\""+ x +"\")' class='content-item'>Xóa</a>";
-                        //         }
-                        //         else
-                        //         {
-                        //             str += "<a href='' class='content-item disabled-link'>Cập nhật</a>";
-                        //             str += "<a href='' class='content-item disabled-link'>Xóa</a>";
-                        //         }
-                                
-                        //         if(works[x].status == "2")
-                        //         {
-                        //             str += "<a onclick='MoveWork(\""+ x +"\")' class='content-item'>Chuyển</a>";
-                        //         }
-                        //         else
-                        //         {
-                        //             str += "<a href='' class='content-item disabled-link'>Chuyển</a>";
-                        //         }
-                        //         str += "</div>";
-                        //     str += "</div>";
-                        // str += "</td>";
-                        
+                        str += "<td class='status'>"+ status +"</td>";                        
                         if(works[x].status == "0")
                         {
                             str += '<td>\
